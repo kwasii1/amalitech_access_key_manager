@@ -1,8 +1,8 @@
 import React from 'react'
 
-function InputError({message = ""}) {
+function InputError({children}) {
   return (
-        <span className='text-xs text-red-600'>{message}</span>
+        <span className='text-xs text-red-600 w-full'>{children}</span>
   )
 }
 

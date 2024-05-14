@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import { Bars3Icon, BellAlertIcon, UserCircleIcon } from '@heroicons/react/24/solid'
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function AppLayout({children,title = ""}) {
-    const [open,setMenu] = useState(false)
-    const [noti,setNoti] = useState(false)
+    const navigate = useNavigate();
+    const [open,setMenu] = useState(false);
+    const [noti,setNoti] = useState(false);
     function openMenu(){
         if(!open){
             setMenu(true)
@@ -20,6 +23,18 @@ function AppLayout({children,title = ""}) {
         }
         else{
             setNoti(false)
+        }
+    }
+
+    async function logout(){
+        try {
+            await axios.post('http://localhost:9000/auth/logout',{},{withCredentials:true}).then((response) => {
+            if(response.data.signout === true){
+                navigate('/login')
+            }
+        })
+        } catch (error) {
+            console.log(error);
         }
     }
     return (
@@ -61,7 +76,7 @@ function AppLayout({children,title = ""}) {
                                 <div className="flex flex-row gap-x-2">
                                     <div className="flex p-2 cursor-pointer hover:bg-cyan-500/20 bg-cyan-500/20 rounded-md">Home</div>
                                     <div className="flex p-2 cursor-pointer hover:bg-cyan-500/20 rounded-md">Payments</div>
-                                    <div className="flex p-2 cursor-pointer hover:bg-cyan-500/20 rounded-md">Home</div>
+                                    <div onClick={logout} className="flex p-2 cursor-pointer hover:bg-cyan-500/20 rounded-md">Logout</div>
                                 </div>
                                 <div className="flex rounded-full">
                                     <UserCircleIcon className='size-6 text-gray-600' />
@@ -75,7 +90,7 @@ function AppLayout({children,title = ""}) {
                                 <ul className='flex flex-col gap-y-1 divide-y divide-gray-100'>
                                     <li className='px-5 py-1 hover:bg-gray-100'>Home</li>
                                     <li className='px-5 py-1 hover:bg-gray-100'>Payments</li>
-                                    <li className='px-5 py-1 hover:bg-gray-100'>Help</li>
+                                    <li onClick={logout} className='px-5 py-1 hover:bg-gray-100'>Logout</li>
                                 </ul>
                             </div>
                         </>
