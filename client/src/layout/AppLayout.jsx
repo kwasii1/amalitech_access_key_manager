@@ -79,7 +79,9 @@ function AppLayout({children,title = ""}) {
                                     <div onClick={logout} className="flex p-2 cursor-pointer hover:bg-cyan-500/20 rounded-md">Logout</div>
                                 </div>
                                 <div className="flex rounded-full">
-                                    <UserCircleIcon className='size-6 text-gray-600' />
+                                    <a href="/profile">
+                                        <UserCircleIcon className='size-6 cursor-pointer text-gray-600' />
+                                    </a>
                                 </div>
                             </div>
                         </div>

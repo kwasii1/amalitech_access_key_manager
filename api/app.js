@@ -4,6 +4,24 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session')
+const MySQLStore = require('express-mysql-session')(session)
+const options = {
+    host: 'localhost',
+	port: 3306,
+	user: 'root',
+	password: '',
+	database: 'akm',
+    createDatabaseTable: true,
+    schema: {
+		tableName: 'sessions',
+		columnNames: {
+			session_id: 'session_id',
+			expires: 'expires',
+			data: 'data',
+		}
+	}
+}
+const sessionStore = new MySQLStore(options)
 var passport = require('passport')
 var LocalStrategy = require('./strategies/localStrategy')
 // Route files
@@ -24,6 +42,7 @@ app.use(session({
     secret:"Mysecret",
     resave:true,
     saveUninitialized:true,
+    store:sessionStore
 }))
 app.use(passport.initialize())
 app.use(passport.session())
