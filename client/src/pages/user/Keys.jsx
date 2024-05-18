@@ -39,9 +39,11 @@ function Keys() {
 					<AppLayout title='Keys'>
 						<div className="flex flex-col gap-y-5">
 							<div className="flex justify-end">
-								<Button type='button' classes='w-fit'>
-									Purchase Key
-								</Button>
+								<a href="/purchase">
+									<Button type='button' classes='w-fit'>
+										Purchase Key
+									</Button>
+								</a>
 							</div>
 							<DataTable
 								columns={columns}

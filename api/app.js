@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session')
+require('dotenv').config()
 const MySQLStore = require('express-mysql-session')(session)
 const options = {
     host: 'localhost',

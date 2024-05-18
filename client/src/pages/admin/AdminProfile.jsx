@@ -14,7 +14,7 @@ function AdminProfile() {
                         </h3>
                         <form action="" className='w-full'>
                             <div className="mb-3 flex flex-col gap-y-2">
-                                <TextInput name="name" type="text" label="School Name" id="name" />
+                                <TextInput name="name" type="text" label="Name" id="name" />
                             </div>
                             <div className="mb-3 flex flex-col gap-y-2">
                                 <TextInput name="email" type="email" label="Email" id="email" />

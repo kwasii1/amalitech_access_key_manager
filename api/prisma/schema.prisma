@@ -20,3 +20,17 @@ model User {
 
   @@map("users")
 }
+
+model Token {
+  email     String   @id @unique
+  token     String   @unique
+  createdAt DateTime @default(now()) @db.Timestamp(0)
+
+  @@map("password_reset_tokens")
+}
+
+model sessions {
+  session_id String  @id @db.VarChar(128)
+  expires    Int     @db.UnsignedInt
+  data       String? @db.MediumText
+}

@@ -23,7 +23,6 @@ export default function Login(){
         await axios.post('http://localhost:9000/login',inputs,{withCredentials:true}).then((response) => {
             if(response.status === 200){
                 setErrors(response.data.errors || {})
-                console.log(response);
                 if(!response.data.errors && response.data.success){
                     navigate('/')
                 }
@@ -53,7 +52,9 @@ export default function Login(){
                     </div>
                     <div className="mb-3 flex flex-row justify-between items-center">
                         <div className="flex">
-                            <p className="text-xs text-gray-600 underline cursor-pointer">Forgot your password?</p>
+                            <a href="reset-password">
+                                <p className="text-xs text-gray-600 underline cursor-pointer">Forgot your password?</p>
+                            </a>
                         </div>
                         <div className="flex">
                             <Button>
