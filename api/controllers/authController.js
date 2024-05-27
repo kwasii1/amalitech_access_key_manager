@@ -3,7 +3,8 @@ const { Prisma,PrismaClient} = require('@prisma/client');
 const prisma = new PrismaClient();
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const { sendEmail } = require("../utils/sendmail");
 
 const validateAuth = (req,res) => {
     return [
@@ -190,6 +191,62 @@ const updateReset = async(req,res) => {
 }
 
 
+const verifyEmail = async (req,res) => {
+    const id = req.params.id;
+    const token = req.params.token;
+
+    jwt.verify(token,'secret', async (err,decoded) => {
+        if(err){
+            return res.json({error_message:"Invalid or expired token"})
+            // return res.redirect('http://localhost:5173')
+        }
+        if(decoded.id != id){
+            return res.json({error_message:"Invalid or expired token"})
+            // return res.redirect('http://localhost:5173')
+        }
+
+        // set user email_verified_at to current date
+        try {
+            const user = await prisma.user.update({
+                where:{
+                    id:id
+                },
+                data:{
+                    email_verified_at:new Date(),
+                }
+            })
+
+            return res.redirect('http://localhost:5173?status=success')
+        } catch (error) {
+            console.log(error);
+        }
+    })
+}
+
+
+
+
+const sendVerificationMail = async (req,res) => {
+    const token = jwt.sign({id:req.user.id},'secret',{expiresIn:'1h'});
+    const link = `http://localhost:9000/users/verify/${req.user.id}/${token}`;
+    try {
+        const user = await prisma.user.findUnique({
+            where:{
+                id:req.user.id
+            }
+        })
+        if(user.email_verified_at != null){
+            return res.json({message:"Email already verified"})
+        }
+    } catch (error) {
+        return res.json({message:error.message})
+    }
+    sendEmail(req,res,req.user.email,"Email Verification",link);
+
+    return res.json({message:"Email Sent"})
+}
+
+
 
 
 
@@ -197,5 +254,7 @@ module.exports = {
     validateAuth,
     sendMail,
     validateReset,
-    updateReset
+    updateReset,
+    verifyEmail,
+    sendVerificationMail
 }

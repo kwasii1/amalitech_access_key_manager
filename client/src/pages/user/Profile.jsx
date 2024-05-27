@@ -4,9 +4,11 @@ import TextInput from '../../components/TextInput'
 import Button from '../../components/Button'
 import useAuth from '../../hooks/authHook';
 import axios from 'axios';
+import useVerified from '../../hooks/verifiedHook';
 
 function Profile() {
     const isAuth = useAuth();
+    const isVerified = useVerified()
     const [user,setUser] = useState({})
     const [error,setError] = useState({})
     const [message,setMessage] = useState("")

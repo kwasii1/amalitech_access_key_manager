@@ -3,9 +3,11 @@ import AppLayout from '../../layout/AppLayout'
 import DataTable from 'react-data-table-component';
 import Button from '../../components/Button';
 import useAuth from '../../hooks/authHook';
+import useVerified from '../../hooks/verifiedHook';
 
 function Keys() {
 	const isAuth = useAuth();
+	const isVerified = useVerified()
 
 	
     const columns = [

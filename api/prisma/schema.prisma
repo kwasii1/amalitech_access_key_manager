@@ -14,7 +14,7 @@ model User {
   name              String    @db.VarChar(255)
   account_type      String    @db.VarChar(255)
   school_name       String?   @db.VarChar(255)
-  email_verified_at DateTime? @db.DateTime(0)
+  email_verified_at DateTime? @db.Timestamp(0) 
   createdAt         DateTime  @default(now()) @db.Timestamp(0)
   updatedAt         DateTime  @default(now()) @db.Timestamp(0)
 

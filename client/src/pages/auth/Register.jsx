@@ -19,7 +19,6 @@ function Register() {
                 if(!response.data.errors){
                     navigate("/login",{state:{message:"Account Created"}})
                 }
-                console.log(response.data.errors);
                 
             }
         })

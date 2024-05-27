@@ -1,3 +1,6 @@
+const {Prisma,PrismaClient} = require('@prisma/client')
+const prisma = new PrismaClient();
+
 const auth = (req,res,next) => {
     if(req.isAuthenticated()){
         // return res.json({auth:true})
@@ -13,7 +16,28 @@ const guest = (req,res,next) => {
     return next();
 }
 
+const verified = async (req,res,next) => {
+    try {
+        const user = await prisma.user.findUnique({
+            where:{
+                id:req.user.id
+            },
+            select:{
+                email_verified_at:true
+            }
+        })
+
+        if(user.email_verified_at == null){
+            return res.json({isVerified:false})
+        }
+        return next();
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 module.exports = {
     auth,
-    guest
+    guest,
+    verified
 }
