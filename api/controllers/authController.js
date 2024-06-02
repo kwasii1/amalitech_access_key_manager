@@ -93,11 +93,11 @@ const sendMail = async (req,res) => {
             if (error) {
                 res.status(500).json({message:"There was a problem sending the email"})
             } else {
-                res.status(200).json({message:"Email sent"})
+                res.status(200).json({message:"An email will be received if the email account exists"})
             }
         });
     } catch (error) {
-        res.status(500).json({error_message:"Internal Server Error"});
+        res.status(500).json({message:"Internal Server Error"});
     }
 
 }

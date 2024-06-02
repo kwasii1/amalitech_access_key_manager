@@ -36,8 +36,30 @@ const verified = async (req,res,next) => {
     }
 }
 
+
+const admin = async (req,res,next) => {
+    try {
+        const user = await prisma.user.findUnique({
+            where:{
+                id:req.user.id
+            },
+            select:{
+                account_type:true
+            }
+        });
+
+        if(user.account_type == "user"){
+            return res.json({isAdmin:false});
+        }
+        return next();
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 module.exports = {
     auth,
     guest,
-    verified
+    verified,
+    admin
 }

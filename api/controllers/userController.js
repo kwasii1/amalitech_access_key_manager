@@ -145,7 +145,7 @@ const updatePassword = async(req,res) => {
             return res.status(200).json({errors:{old_password:"Old password does not match"}});
         }
     } catch (error) {
-        
+        return res.status(500).json({password_message:"There was a problem updating the password"});
     }
 }
 

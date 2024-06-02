@@ -20,7 +20,7 @@ const options = {
 			expires: 'expires',
 			data: 'data',
 		}
-	}
+	},
 }
 const sessionStore = new MySQLStore(options)
 var passport = require('passport')
@@ -30,7 +30,9 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var registerRouter = require('./routes/register')
 var loginRouter = require('./routes/login');
-var authRouter = require('./routes/authRoute')
+var authRouter = require('./routes/authRoute');
+var adminRouter = require('./routes/admin');
+var paymentRouter = require('./routes/paymentRoute')
 var app = express();
 // CORS and Session
 app.use(cors({
@@ -58,6 +60,8 @@ app.use('/register', registerRouter);
 app.use('/login', loginRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/admin', adminRouter);
 app.use('/auth', authRouter);
+app.use('/payment',paymentRouter)
 
 module.exports = app;

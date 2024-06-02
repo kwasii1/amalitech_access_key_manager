@@ -3,12 +3,13 @@ import GuestLayout from '../../layout/GuestLayout'
 import TextInput from '../../components/TextInput'
 import Button from '../../components/Button'
 import axios from 'axios'
-import {useNavigate} from 'react-router-dom'
+import {NavLink, useNavigate} from 'react-router-dom'
 
 function Register() {
     const navigate = useNavigate();
     const [inputs,setInputs] = useState({})
     const [error,setErrors] = useState({})
+    const [message,setMessage] = useState("")
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -21,14 +22,12 @@ function Register() {
                 }
                 
             }
+            else{
+                setMessage(response.data.error)
+            }
         })
         .catch(err => {
-            if(err.response){
-                console.log("RESPONSE",err.response.data);
-            }
-            else{
-                console.log("REQUEST",err);
-            }
+            setMessage("There was an error whilst registering account")
         })
     }
 
@@ -40,6 +39,13 @@ function Register() {
   return (
     <>
         <GuestLayout >
+            {message ? (
+                <>
+                    <div className="flex flex-row p-2 text-white bg-green-600 rounded-md mb-3">
+                        {message}
+                    </div>
+                </>
+            ):""}
             <form onSubmit={handleSubmit} method='POST'>
                 <div className="mb-3 flex flex-col gap-y-2">
                     <TextInput name="name" type="text" label="Name" id="name" value={inputs.name || ""} change={handleChange} error={error.name || ""}  />
@@ -58,7 +64,9 @@ function Register() {
                 </div>
                 <div className="mb-3 flex flex-row justify-between items-center">
                     <div className="flex w-full md:w-1/2">
-                        <p className="text-xs text-gray-600 underline cursor-pointer">Already have an account?</p>
+                        <NavLink to={"/login"}>
+                            <p className="text-xs text-gray-600 underline cursor-pointer">Already have an account?</p>
+                        </NavLink>
                     </div>
                     <div className="flex w-full md:w-1/2">
                         <Button>

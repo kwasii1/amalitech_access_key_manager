@@ -1,5 +1,5 @@
 var express = require('express');
-const { auth, guest, verified } = require('../strategies/auth');
+const { auth, guest, verified, admin } = require('../strategies/auth');
 const { logout } = require('../controllers/loginController');
 var router = express.Router();
 
@@ -12,6 +12,9 @@ router.get('/guest',guest,(req,res) => {
 });
 router.get('/verified',auth,verified,(req,res) => {
     return res.json({isVerified:true})
+})
+router.get('/admin',auth,admin,(req,res) => {
+    return res.json({isAdmin:true})
 })
 router.post('/logout',logout);
 

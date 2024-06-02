@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Bars3Icon, BellAlertIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 function AdminLayout({children,title = ""}) {
     const navigate = useNavigate();
@@ -74,8 +74,16 @@ function AdminLayout({children,title = ""}) {
                             </div>
                             <div className="flex items-center gap-x-5">
                                 <div className="flex flex-row gap-x-2">
-                                    <div className="flex p-2 cursor-pointer hover:bg-cyan-500/20 bg-cyan-500/20 rounded-md">Home</div>
-                                    <div className="flex p-2 cursor-pointer hover:bg-cyan-500/20 rounded-md">Payments</div>
+                                    <NavLink to={"/admin"}>
+                                        {({isActive}) => (
+                                            <span className={`flex p-2 cursor-pointer hover:bg-cyan-500/20 rounded-md ${isActive ? 'bg-cyan-500/20':''}`}>Home</span>
+                                        )}
+                                    </NavLink>
+                                    <NavLink to={"/payments"}>
+                                        {({isActive}) => (
+                                            <span className={`flex p-2 cursor-pointer hover:bg-cyan-500/20 rounded-md ${isActive ? 'bg-cyan-500/20':''}`}>Payments</span>
+                                        )}
+                                    </NavLink>
                                     <div onClick={logout} className="flex p-2 cursor-pointer hover:bg-cyan-500/20 rounded-md">Logout</div>
                                 </div>
                                 <div className="flex rounded-full">

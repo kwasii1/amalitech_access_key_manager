@@ -2,7 +2,7 @@ import { useState } from "react";
 import Button from "../../components/Button";
 import TextInput from "../../components/TextInput";
 import GuestLayout from "../../layout/GuestLayout";
-import { useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -11,6 +11,7 @@ export default function Login(){
     let location = useLocation()
     const [inputs,setInputs] = useState({});
     const [error,setErrors] = useState({});
+    const [message,setMessage] = useState("")
 
     const handleChange = (event) => {
         const name = event.target.name;
@@ -24,11 +25,19 @@ export default function Login(){
             if(response.status === 200){
                 setErrors(response.data.errors || {})
                 if(!response.data.errors && response.data.success){
-                    navigate('/')
+                    if(response.data.admin == "admin"){
+                        navigate('/admin')
+                    }
+                    else{
+                        navigate('/')
+                    }
                 }
             }
+            else{
+                setMessage(response.data.message)
+            }
         }).catch(err => {
-            console.log(err);
+            setMessage(response.data.message)
         })
     }
 
@@ -43,6 +52,13 @@ export default function Login(){
                         </div>
                     </>
                 ) }
+                {message ? (
+                    <>
+                        <div className="flex flex-col w-full p-2 bg-green-300 mb-3">
+                            {message}
+                        </div>
+                    </>
+                ):'' }
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3 flex flex-col gap-y-2">
                         <TextInput name="email" type="email" label="Email" id="email" value={inputs.email || ""} error={error.email} change={handleChange}/>
@@ -52,7 +68,7 @@ export default function Login(){
                     </div>
                     <div className="mb-3 flex flex-row justify-between items-center">
                         <div className="flex">
-                            <a href="reset-password">
+                            <a href="/reset-password">
                                 <p className="text-xs text-gray-600 underline cursor-pointer">Forgot your password?</p>
                             </a>
                         </div>
@@ -61,6 +77,11 @@ export default function Login(){
                                 Login
                             </Button>
                         </div>
+                    </div>
+                    <div className="flex justify-center w-full">
+                        <NavLink to={"/register"}>
+                            <p className="text-xs text-gray-600 underline cursor-pointer">Don't have an account?</p>
+                        </NavLink>
                     </div>
                 </form>
             </GuestLayout>

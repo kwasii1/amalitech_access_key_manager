@@ -9,6 +9,7 @@ import Keys from './pages/user/Keys'
 import PurchaseKey from './pages/user/PurchaseKey'
 import Profile from './pages/user/Profile'
 import AdminProfile from './pages/admin/AdminProfile'
+import AdminHome from './pages/admin/AdminHome'
 
 function App() {
 	
@@ -22,6 +23,7 @@ function App() {
 				<Route path='/verify-email' element={<VerifyEmail />}/>
 				<Route path='/reset-password-form/:id/:token' element={<PasswordResetForm />}/>
 				<Route path='/' element={<Keys />}/>
+				<Route path='/admin' element={<AdminHome />}/>
 				<Route path='/purchase' element={<PurchaseKey />}/>
 				<Route path='/profile' element={<Profile />}/>
 				<Route path='/admin-profile' element={<AdminProfile />}/>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Bars3Icon, BellAlertIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 function AppLayout({children,title = ""}) {
     const navigate = useNavigate();
@@ -74,8 +74,16 @@ function AppLayout({children,title = ""}) {
                             </div>
                             <div className="flex items-center gap-x-5">
                                 <div className="flex flex-row gap-x-2">
-                                    <div className="flex p-2 cursor-pointer hover:bg-cyan-500/20 bg-cyan-500/20 rounded-md">Home</div>
-                                    <div className="flex p-2 cursor-pointer hover:bg-cyan-500/20 rounded-md">Payments</div>
+                                    <NavLink to={"/"}>
+                                        {({isActive}) => (
+                                            <span className={`flex p-2 cursor-pointer hover:bg-cyan-500/20 rounded-md ${isActive ? 'bg-cyan-500/20':''}`}>Home</span>
+                                        )}
+                                    </NavLink>
+                                    <NavLink to={"/payments"}>
+                                        {({isActive}) => (
+                                            <span className={`flex p-2 cursor-pointer hover:bg-cyan-500/20 rounded-md ${isActive ? 'bg-cyan-500/20':''}`}>Payments</span>
+                                        )}
+                                    </NavLink>
                                     <div onClick={logout} className="flex p-2 cursor-pointer hover:bg-cyan-500/20 rounded-md">Logout</div>
                                 </div>
                                 <div className="flex rounded-full">
@@ -90,8 +98,12 @@ function AppLayout({children,title = ""}) {
                         <>
                             <div className="flex flex-col bg-cyan-600 rounded-b-md">
                                 <ul className='flex flex-col gap-y-1 divide-y divide-gray-100'>
-                                    <li className='px-5 py-1 hover:bg-gray-100'>Home</li>
-                                    <li className='px-5 py-1 hover:bg-gray-100'>Payments</li>
+                                    <a href="/">
+                                        <li className='px-5 py-1 hover:bg-gray-100'>Home</li>
+                                    </a>
+                                    <a href="/payments">
+                                        <li className='px-5 py-1 hover:bg-gray-100'>Payments</li>
+                                    </a>
                                     <li onClick={logout} className='px-5 py-1 hover:bg-gray-100'>Logout</li>
                                 </ul>
                             </div>

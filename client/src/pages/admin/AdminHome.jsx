@@ -1,8 +1,12 @@
 import React from 'react'
-import AppLayout from '../../layout/AppLayout'
 import DataTable from 'react-data-table-component';
+import AdminLayout from '../../layout/AdminLayout';
+import useAdmin from '../../hooks/adminHook';
+import useAuth from '../../hooks/authHook';
 
 function AdminHome() {
+	useAuth()
+	useAdmin()
     const columns = [
 		{
 			name: 'Title',
@@ -28,13 +32,13 @@ function AdminHome() {
 	]
   return (
     <>
-        <AppLayout title='Home'>
+        <AdminLayout title='Home'>
             <div className="flex flex-col gap-y-5">
                 <DataTable
                     columns={columns}
                     data={data} />
             </div>
-        </AppLayout>
+        </AdminLayout>
     </>
   )
 }

@@ -26,8 +26,11 @@ function ResetPassword() {
                     setMessage(response.data.message);
                 }
             }
+            else{
+                setMessage(response.data.message);
+            }
         }).catch((err) => {
-            console.log(err);
+            setMessage(response.data.message);
         })
     }
     return (

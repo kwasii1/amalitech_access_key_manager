@@ -27,11 +27,14 @@ function Profile() {
         event.preventDefault();
         axios.post('http://localhost:9000/users/update',user,{withCredentials:true}).then((response) => {
             if(response.status === 200){
-                console.log(response.data.errors);
+                setMessage("");
                 setError(response.data.errors || {})
                 if(!response.data.errors){
                     setMessage(response.data.message);
                 }
+            }
+            else{
+                setMessage(response.data.error);
             }
         })
     }
@@ -54,6 +57,9 @@ function Profile() {
                     setInputs({});
                 }
             }
+            else{
+                setpMessage(response.data.password_message);
+            }
         })
     }
 
@@ -63,7 +69,8 @@ function Profile() {
                 setUser(response.data.user)
             })
         } catch (error) {
-            
+            // check this
+            setMessage(error)
         }
     },[])
 
