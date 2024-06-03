@@ -66,7 +66,7 @@ const completePayment = async (req,res) => {
     });
 
     if(exist){
-        return res.json({message:"You already have an active key"})
+        return res.json({errors:{custom:"You already have an active key"}})
     }
 
     const params = {

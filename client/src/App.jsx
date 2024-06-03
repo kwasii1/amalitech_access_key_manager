@@ -10,6 +10,7 @@ import PurchaseKey from './pages/user/PurchaseKey'
 import Profile from './pages/user/Profile'
 import AdminProfile from './pages/admin/AdminProfile'
 import AdminHome from './pages/admin/AdminHome'
+import Endpoint from './pages/admin/Endpoint'
 
 function App() {
 	
@@ -27,6 +28,7 @@ function App() {
 				<Route path='/purchase' element={<PurchaseKey />}/>
 				<Route path='/profile' element={<Profile />}/>
 				<Route path='/admin-profile' element={<AdminProfile />}/>
+				<Route path='/endpoint' element={<Endpoint />} />
 			</Routes>
 		</BrowserRouter>
     </>

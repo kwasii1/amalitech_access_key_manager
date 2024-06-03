@@ -84,6 +84,11 @@ function AdminLayout({children,title = ""}) {
                                             <span className={`flex p-2 cursor-pointer hover:bg-cyan-500/20 rounded-md ${isActive ? 'bg-cyan-500/20':''}`}>Payments</span>
                                         )}
                                     </NavLink>
+                                    <NavLink to={"/endpoint"}>
+                                        {({isActive}) => (
+                                            <span className={`flex p-2 cursor-pointer hover:bg-cyan-500/20 rounded-md ${isActive ? 'bg-cyan-500/20':''}`}>Endpoint</span>
+                                        )}
+                                    </NavLink>
                                     <div onClick={logout} className="flex p-2 cursor-pointer hover:bg-cyan-500/20 rounded-md">Logout</div>
                                 </div>
                                 <div className="flex rounded-full">

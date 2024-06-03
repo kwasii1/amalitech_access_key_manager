@@ -14,9 +14,11 @@ export default function useGuest(){
 				if(response.data.guest === false){
 					navigate('/');
 				}
+			}).catch(err => {
+				setIsGuest(false)
 			})
 		} catch (error) {
-			console.log(error);
+			setIsGuest(false)
 		}
 	},[isGuest,navigate])
 

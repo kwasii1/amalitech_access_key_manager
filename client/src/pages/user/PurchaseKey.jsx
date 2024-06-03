@@ -8,11 +8,15 @@ import useAuth from '../../hooks/authHook'
 import InputLabel from '../../components/InputLabel'
 import InputSelect from '../../components/InputSelect'
 import { useNavigate } from 'react-router-dom'
+import useUser from '../../hooks/userHook'
+import InputError from '../../components/InputError'
 import.meta.env
 
 
 function PurchaseKey() {
     useAuth()
+    useVerified()
+    useUser()
     var navigate = useNavigate()
     const isVerified = useVerified();
     const [plans,setPlans] = useState({});
@@ -47,6 +51,8 @@ function PurchaseKey() {
                         navigate('/')
                     }
                 }
+            }).catch(err => {
+                setMessage(err.message);
             })
         } catch (error) {
             setMessage(error.message);
@@ -85,6 +91,9 @@ function PurchaseKey() {
                     </>
                 ):""}
                 <form onSubmit={handleSubmit} className='w-full md:w-1/3'>
+                    <div className="flex mb-3">
+                        <InputError>{errors.custom}</InputError>
+                    </div>
                     <div className="mb-3 flex flex-col gap-y-1">
                         <InputSelect name={"plan"} id={"plan"} label='Plan' change={handleChange} value={input.plan || ""} error={errors.plan}>
                             <option value="">Select Preferred Plan</option>

@@ -14,9 +14,11 @@ export default function useAuth(){
 				if(response.data.auth === false){
 					navigate('/login');
 				}
+			}).catch(err => {
+				setIsAuth(false)
 			})
 		} catch (error) {
-			console.log(error);
+			setIsAuth(false)
 		}
 	},[isAuth,navigate])
 

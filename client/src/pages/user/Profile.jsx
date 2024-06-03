@@ -5,10 +5,12 @@ import Button from '../../components/Button'
 import useAuth from '../../hooks/authHook';
 import axios from 'axios';
 import useVerified from '../../hooks/verifiedHook';
+import useUser from '../../hooks/userHook';
 
 function Profile() {
     const isAuth = useAuth();
     const isVerified = useVerified()
+    useUser()
     const [user,setUser] = useState({})
     const [error,setError] = useState({})
     const [message,setMessage] = useState("")

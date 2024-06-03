@@ -14,9 +14,11 @@ export default function useVerified(){
 				if(response.data.isVerified === false){
 					navigate('/verify-email');
 				}
+			}).catch(err => {
+				setisVerified(false)
 			})
 		} catch (error) {
-			console.log(error);
+			setisVerified(false)
 		}
 	},[isVerified,navigate])
 

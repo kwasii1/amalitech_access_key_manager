@@ -14,7 +14,7 @@ function VerifyEmail() {
                 setMessage(response.data.message)
             }
         }).catch((err) => {
-            console.log(err);
+            setMessage(err.message)
         })
     }
     return (

@@ -30,7 +30,7 @@ function ResetPassword() {
                 setMessage(response.data.message);
             }
         }).catch((err) => {
-            setMessage(response.data.message);
+            setMessage(err.message);
         })
     }
     return (

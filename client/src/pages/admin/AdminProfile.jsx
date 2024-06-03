@@ -37,6 +37,8 @@ function AdminProfile() {
             else{
                 setMessage(response.data.error);
             }
+        }).catch(err => {
+            setMessage(err.message);
         })
     }
 
@@ -59,6 +61,8 @@ function AdminProfile() {
             else{
                 setPmessage(response.data.password_message);
             }
+        }).catch(err => {
+            setPmessage(err.message)
         })
     }
 
@@ -67,9 +71,11 @@ function AdminProfile() {
         try {
             axios.get('http://localhost:9000/users',{withCredentials:true}).then((response) => {
                 setUser(response.data.user)
+            }).catch(err => {
+                setMessage(err.message)
             })
         } catch (error) {
-            console.log(error);
+            setMessage(error.message)
         }
     },[])
 

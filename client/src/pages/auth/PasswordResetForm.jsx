@@ -26,7 +26,7 @@ function PasswordResetForm() {
                 }
             }
         }).catch((err) => {
-            console.log(err);
+            setMessage(err.message)
         })
     }
 

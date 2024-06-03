@@ -12,6 +12,14 @@ async function main(){
             password:"$2a$10$VGd.ednsEzgx0hb7P3ark.HL.ck5XyJmfLROrpBgfehgS/Sri5d76",
         }
     })
+
+    const users = await prisma.user.createMany({
+		data:[
+			{
+				name:"Kwame Osei"
+			}
+		],
+    })
 }
 
 main()
