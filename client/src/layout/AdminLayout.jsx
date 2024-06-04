@@ -2,11 +2,13 @@ import React, { useState } from 'react'
 import { Bars3Icon, BellAlertIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import axios from 'axios';
 import { NavLink, useNavigate } from 'react-router-dom';
+import csrfTokenHook from '../hooks/csrfTokenHook';
 
 function AdminLayout({children,title = ""}) {
     const navigate = useNavigate();
     const [open,setMenu] = useState(false);
     const [noti,setNoti] = useState(false);
+    const token = csrfTokenHook();
     function openMenu(){
         if(!open){
             setMenu(true)
@@ -28,7 +30,7 @@ function AdminLayout({children,title = ""}) {
 
     async function logout(){
         try {
-            await axios.post('http://localhost:9000/auth/logout',{},{withCredentials:true}).then((response) => {
+            await axios.post('http://localhost:9000/auth/logout',{CSRFToken:token},{withCredentials:true}).then((response) => {
             if(response.data.signout === true){
                 navigate('/login')
             }

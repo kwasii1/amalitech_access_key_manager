@@ -3,6 +3,7 @@ const { index, update, validate, validatePassword, updatePassword } = require('.
 const { validateAuth, sendMail, validateReset, updateReset, verifyEmail, sendVerificationMail } = require('../controllers/authController')
 const { getKeys } = require('../controllers/keyController');
 const { auth, verified } = require('../strategies/auth');
+const { checkExpiration } = require('../middlewares/checkExpiration');
 var router = express.Router();
 
 /* GET users listing. */
@@ -13,6 +14,6 @@ router.post('/reset-password',validateAuth(),sendMail);
 router.post('/reset-password/:id/:token',validateReset(),updateReset);
 router.get('/verify/:id/:token',auth,verifyEmail)
 router.post('/send-verification',auth,sendVerificationMail)
-router.get('/keys',auth,verified,getKeys)
+router.get('/keys',auth,verified,checkExpiration,getKeys)
 
 module.exports = router;

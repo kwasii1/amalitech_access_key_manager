@@ -5,6 +5,12 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session')
 require('dotenv').config()
+const { csrfSync } = require('csrf-sync');
+const {csrfSynchronisedProtection} = csrfSync({
+    getTokenFromRequest: (req) => {
+        return req.body["CSRFToken"];
+    },
+})
 const MySQLStore = require('express-mysql-session')(session)
 const options = {
     host: 'localhost',
@@ -13,6 +19,8 @@ const options = {
 	password: '',
 	database: 'akm',
     createDatabaseTable: true,
+    expiration:3600000,
+    clearExpired:true,
     schema: {
 		tableName: 'sessions',
 		columnNames: {
@@ -45,7 +53,13 @@ app.use(session({
     secret:"Mysecret",
     resave:true,
     saveUninitialized:true,
-    store:sessionStore
+    store:sessionStore,
+    cookie:{
+        httpOnly:true,
+        sameSite:"lax",
+        secure:false,
+        maxAge:3600000
+    }
 }))
 app.use(passport.initialize())
 app.use(passport.session())
@@ -55,6 +69,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+// csrfProtection
+app.use(csrfSynchronisedProtection)
 // route definitions
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);

@@ -6,6 +6,7 @@ import useAuth from '../../hooks/authHook';
 import axios from 'axios';
 import useVerified from '../../hooks/verifiedHook';
 import useUser from '../../hooks/userHook';
+import csrfTokenHook from '../../hooks/csrfTokenHook';
 
 function Profile() {
     const isAuth = useAuth();
@@ -18,6 +19,7 @@ function Profile() {
     const [inputs,setInputs] = useState({});
     const [perror,setPerror] = useState({})
     const [pmessage,setpMessage] = useState("")
+    const token = csrfTokenHook()
 
     const handleChange = (event) => {
         const name = event.target.name;
@@ -27,7 +29,7 @@ function Profile() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:9000/users/update',user,{withCredentials:true}).then((response) => {
+        axios.post('http://localhost:9000/users/update',{...user,CSRFToken:token},{withCredentials:true}).then((response) => {
             if(response.status === 200){
                 setMessage("");
                 setError(response.data.errors || {})
@@ -51,7 +53,7 @@ function Profile() {
 
     const handlePasswordSubmit = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:9000/users/updatepassword',inputs,{withCredentials:true}).then((response) => {
+        axios.post('http://localhost:9000/users/updatepassword',{...inputs,CSRFToken:token},{withCredentials:true}).then((response) => {
             if(response.status === 200){
                 setPerror(response.data.errors || {})
                 if(!response.data.errors){

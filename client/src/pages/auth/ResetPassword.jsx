@@ -4,12 +4,14 @@ import TextInput from '../../components/TextInput'
 import Button from '../../components/Button'
 import axios from 'axios';
 import useGuest from '../../hooks/guestHook';
+import csrfTokenHook from '../../hooks/csrfTokenHook';
 
 function ResetPassword() {
     const [input,setInput] = useState({});
     const [error,setError] = useState({});
     const [message,setMessage] = useState("");
     const isGuest = useGuest();
+    const token = csrfTokenHook()
 
     const handleChange = (event) => {
         const name = event.target.name;
@@ -19,7 +21,7 @@ function ResetPassword() {
 
     const handleSubmit = async (event) => {
         event.preventDefault()
-        await axios.post('http://localhost:9000/users/reset-password',input,{withCredentials:true}).then((response) => {
+        await axios.post('http://localhost:9000/users/reset-password',{...input,CSRFToken:token},{withCredentials:true}).then((response) => {
             if(response.status === 200){
                 setError(response.data.errors || {})
                 if(!response.data.errors){

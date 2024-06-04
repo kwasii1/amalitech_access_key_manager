@@ -5,6 +5,7 @@ import GuestLayout from "../../layout/GuestLayout";
 import { NavLink, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import csrfTokenHook from "../../hooks/csrfTokenHook";
 
 export default function Login(){
     const navigate = useNavigate()
@@ -12,6 +13,7 @@ export default function Login(){
     const [inputs,setInputs] = useState({});
     const [error,setErrors] = useState({});
     const [message,setMessage] = useState("")
+    const token = csrfTokenHook();
 
     const handleChange = (event) => {
         const name = event.target.name;
@@ -21,7 +23,7 @@ export default function Login(){
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        await axios.post('http://localhost:9000/login',inputs,{withCredentials:true}).then((response) => {
+        await axios.post('http://localhost:9000/login',{...inputs,CSRFToken:token},{withCredentials:true}).then((response) => {
             if(response.status === 200){
                 setErrors(response.data.errors || {})
                 if(!response.data.errors && response.data.success){
@@ -37,7 +39,7 @@ export default function Login(){
                 setMessage(response.data.message)
             }
         }).catch(err => {
-            setMessage(response.data.message)
+            setMessage(err.message)
         })
     }
 

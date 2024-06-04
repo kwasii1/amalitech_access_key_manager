@@ -10,6 +10,7 @@ import InputSelect from '../../components/InputSelect'
 import { useNavigate } from 'react-router-dom'
 import useUser from '../../hooks/userHook'
 import InputError from '../../components/InputError'
+import csrfTokenHook from '../../hooks/csrfTokenHook'
 import.meta.env
 
 
@@ -23,6 +24,7 @@ function PurchaseKey() {
     const [message,setMessage] = useState("");
     const [input,setInputs] = useState({});
     const [errors,setErrors] = useState({});
+    const token = csrfTokenHook()
 
     const handleChange = (event) => {
         const name = event.target.name;
@@ -42,7 +44,7 @@ function PurchaseKey() {
     const handleSubmit = (event) => {
         event.preventDefault();
         try {
-            axios.post('http://localhost:9000/payment/pay',input,{withCredentials:true}).then((response) => {
+            axios.post('http://localhost:9000/payment/pay',{...input,CSRFToken:token},{withCredentials:true}).then((response) => {
                 if(response.status === 200){
                     setErrors(response.data.errors || {});
                     if(!response.data.errors){

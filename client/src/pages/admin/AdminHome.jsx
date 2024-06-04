@@ -8,6 +8,7 @@ import axios from 'axios';
 import { EyeIcon, TrashIcon } from '@heroicons/react/24/solid';
 import Modal from '../../components/Modal';
 import Button from '../../components/Button';
+import csrfTokenHook from '../../hooks/csrfTokenHook';
 
 function AdminHome() {
 	useAuth();
@@ -16,7 +17,8 @@ function AdminHome() {
 	const [keys,setKeys] = useState([]);
 	const [message,setMessage] = useState("");
 	const [isOpen, setIsOpen] = useState("");
-	const [shouldFetch,setShouldfetch] = useState(true)
+	const [shouldFetch,setShouldfetch] = useState(true);
+	const token = csrfTokenHook()
 
 	const handleClick = (name) => {
 		setIsOpen(name);
@@ -27,7 +29,7 @@ function AdminHome() {
 
 	const revoke = (id) => {
 		try {
-			axios.delete(`http://localhost:9000/admin/keys/revoke/${id}`,{withCredentials:true}).then((response) => {
+			axios.post(`http://localhost:9000/admin/keys/revoke/${id}`,{CSRFToken:token},{withCredentials:true}).then((response) => {
 				if(response.status === 200){
 					setMessage(response.data.message);
 					setIsOpen("");
@@ -36,6 +38,9 @@ function AdminHome() {
 				else{
 					setMessage(response.data.message);
 				}
+			}).catch(err => {
+				setMessage(err.message);
+				setIsOpen("");
 			})
 		} catch (error) {
 			setMessage(response.error.message);

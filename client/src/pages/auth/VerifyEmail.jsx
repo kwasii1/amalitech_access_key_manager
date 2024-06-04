@@ -3,13 +3,15 @@ import GuestLayout from '../../layout/GuestLayout'
 import Button from '../../components/Button'
 import axios from 'axios'
 import useAuth from '../../hooks/authHook'
+import csrfTokenHook from '../../hooks/csrfTokenHook'
 
 function VerifyEmail() {
     useAuth();
     const [message,setMessage] = useState("")
+    const token = csrfTokenHook()
     const handleSubmit = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:9000/users/send-verification',{},{withCredentials:true}).then((response) => {
+        axios.post('http://localhost:9000/users/send-verification',{CSRFToken:token},{withCredentials:true}).then((response) => {
             if(response.status === 200){
                 setMessage(response.data.message)
             }

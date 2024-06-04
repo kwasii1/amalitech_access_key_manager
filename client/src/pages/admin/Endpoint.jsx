@@ -6,6 +6,7 @@ import axios from 'axios';
 import useAuth from '../../hooks/authHook';
 import useVerified from '../../hooks/verifiedHook';
 import useAdmin from '../../hooks/adminHook';
+import csrfTokenHook from '../../hooks/csrfTokenHook';
 
 export default function Endpoint() {
     useAuth()
@@ -15,6 +16,7 @@ export default function Endpoint() {
     const [errors,setErrors] = useState({});
     const [message,setMessage] = useState("");
     const [key,setKey] = useState(null);
+    const token = csrfTokenHook()
 
     const handleChange = (event) => {
         const name = event.target.name;
@@ -25,7 +27,7 @@ export default function Endpoint() {
     const handleSubmit = (event) => {
         event.preventDefault()
         try {
-            axios.post('http://localhost:9000/admin/endpoint',input,{withCredentials:true}).then((response) => {
+            axios.post('http://localhost:9000/admin/endpoint',{...input,CSRFToken:token},{withCredentials:true}).then((response) => {
                 if(response.status === 200){
                     setErrors(response.data.errors || {});
                     if(!response.data.errors){

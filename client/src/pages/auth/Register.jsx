@@ -4,16 +4,18 @@ import TextInput from '../../components/TextInput'
 import Button from '../../components/Button'
 import axios from 'axios'
 import {NavLink, useNavigate} from 'react-router-dom'
+import csrfTokenHook from '../../hooks/csrfTokenHook'
 
 function Register() {
     const navigate = useNavigate();
     const [inputs,setInputs] = useState({})
     const [error,setErrors] = useState({})
     const [message,setMessage] = useState("")
+    const token = csrfTokenHook()
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        await axios.post('http://localhost:9000/register',inputs,{withCredentials:true}).then((response) => {
+        await axios.post('http://localhost:9000/register',{...inputs,CSRFToken:token},{withCredentials:true}).then((response) => {
             if(response.status === 200){
                 setErrors(response.data.errors || {});
                 // navigate('/login')

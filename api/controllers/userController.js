@@ -10,6 +10,13 @@ const index = async(req,res) => {
         const user = await prisma.user.findUnique({
             where:{
                 id:req.user.id
+            },
+            select:{
+                name:true,
+                school_name:true,
+                id:true,
+                account_type:true,
+                email:true,
             }
         })
 

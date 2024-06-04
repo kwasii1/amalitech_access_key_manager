@@ -51,6 +51,22 @@ const getAllKeys = async (req,res) => {
 
 const revoke = async (req,res) => {
     try {
+        const exists = await prisma.accessKey.findUnique({
+            where:{
+                id:req.params.id,
+                OR:[
+                    {
+                        status:"expired"
+                    },
+                    {
+                        status:"revoked"
+                    }
+                ]
+            }
+        });
+        if(exists){
+            return res.status(200).json({message:`${exists.key} has been revoked already`})
+        }
         const key = await prisma.accessKey.update({
             where:{
                 id:req.params.id
@@ -60,9 +76,9 @@ const revoke = async (req,res) => {
             }
         })
 
-        res.status(200).json({message:`${key.key} has been revoked`})
+        return res.status(200).json({message:`${key.key} has been revoked`})
     } catch (error) {
-        res.status(500).json({message:"There was an error revoking key"})
+        return res.status(500).json({message:"There was an error revoking key"})
     }
 }
 

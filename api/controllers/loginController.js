@@ -1,5 +1,7 @@
 const { check, validationResult } = require("express-validator");
 var passport = require('passport');
+const { csrfSync } = require('csrf-sync');
+const { generateToken,revokeToken } = csrfSync()
 
 
 const validateLogin = () => {
@@ -47,6 +49,7 @@ const logout = (req,res,next) => {
         if(err){
             return next(err)
         }
+        generateToken(req,true);
         return res.json({signout:true})
     })
 }

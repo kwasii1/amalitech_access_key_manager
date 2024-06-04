@@ -5,6 +5,7 @@ import Button from '../../components/Button'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import useGuest from '../../hooks/guestHook'
+import csrfTokenHook from '../../hooks/csrfTokenHook'
 
 function PasswordResetForm() {
     const [inputs,setInputs] = useState({});
@@ -12,12 +13,13 @@ function PasswordResetForm() {
     const [message,setMessage] = useState("");
     const {id,token} = useParams();
     const navigate = useNavigate();
-    const isGuest = useGuest()
+    const isGuest = useGuest();
+    const csrftoken = csrfTokenHook()
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const updated_inputs = {...inputs,token,id}
-        axios.post(`http://localhost:9000/users/reset-password/${id}/${token}`,updated_inputs,{withCredentials:true}).then((response) => {
+        axios.post(`http://localhost:9000/users/reset-password/${id}/${token}`,{...updated_inputs,CSRFToken:csrftoken},{withCredentials:true}).then((response) => {
             if(response.status === 200){
                 setError(response.data.errors || {})
                 if(!response.data.errors){

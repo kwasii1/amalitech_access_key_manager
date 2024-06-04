@@ -5,8 +5,12 @@ import Button from '../../components/Button'
 import useAdmin from '../../hooks/adminHook'
 import useAuth from '../../hooks/authHook'
 import axios from 'axios'
+import csrfTokenHook from '../../hooks/csrfTokenHook'
 
 function AdminProfile() {
+    useAuth();
+    useAdmin();
+    const token = csrfTokenHook();
     const [user,setUser] = useState({});
     const [errors,setErrors] = useState({});
     const [message,setMessage] = useState("");
@@ -15,8 +19,7 @@ function AdminProfile() {
     const [pmessage,setPmessage] = useState("");
 
     
-    useAuth();
-    useAdmin();
+    
 
     const handleChange = (event) => {
         const name = event.target.name;
@@ -26,7 +29,7 @@ function AdminProfile() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:9000/admin/update-profile',user,{withCredentials:true}).then((response) => {
+        axios.post('http://localhost:9000/admin/update-profile',{...user,CSRFToken:token},{withCredentials:true,withXSRFToken:true}).then((response) => {
             if(response.status === 200){
                 setMessage("");
                 setErrors(response.data.errors || {})
@@ -50,7 +53,7 @@ function AdminProfile() {
 
     const handlePasswordSubmit = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:9000/admin/change-password',inputs,{withCredentials:true}).then((response) => {
+        axios.post('http://localhost:9000/admin/change-password',{...inputs,CSRFToken:token},{withCredentials:true,withXSRFToken:true}).then((response) => {
             if(response.status === 200){
                 setPmessage("");
                 setPerrors(response.data.errors || {})
@@ -70,7 +73,7 @@ function AdminProfile() {
     useEffect(() => {
         try {
             axios.get('http://localhost:9000/users',{withCredentials:true}).then((response) => {
-                setUser(response.data.user)
+                setUser(response.data.user);
             }).catch(err => {
                 setMessage(err.message)
             })
@@ -97,6 +100,7 @@ function AdminProfile() {
                             </>
                         ):""}
                         <form onSubmit={handleSubmit} className='w-full'>
+                            <input type="hidden" name="CSRFToken" value={token} />
                             <div className="mb-3 flex flex-col gap-y-2">
                                 <TextInput name="name" type="text" label="Name" id="name" value={user.name || ""} change={handleChange} error={errors.name} />
                             </div>
@@ -123,6 +127,7 @@ function AdminProfile() {
                             </>
                         ):""}
                         <form onSubmit={handlePasswordSubmit} className='w-full'>
+                            <input type="hidden" name="CSRFToken" value={token} />
                             <div className="mb-3 flex flex-col gap-y-2">
                                 <TextInput name="old_password" type="password" label="Old Password" id="old_password" change={handlePasswordChange} value={inputs.old_password || ""} error={perrors.old_password} />
                             </div>

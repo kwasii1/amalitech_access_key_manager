@@ -1,6 +1,7 @@
 var express = require('express');
 const { auth, guest, verified, admin, user } = require('../strategies/auth');
 const { logout } = require('../controllers/loginController');
+const { tokenGenerate } = require('../libs/csrfProtection');
 var router = express.Router();
 
 
@@ -19,6 +20,8 @@ router.get('/admin',auth,admin,(req,res) => {
 router.get('/user',auth,user,(req,res) => {
     return res.json({isUser:true})
 })
+
+router.get('/csrf-token',tokenGenerate);
 router.post('/logout',logout);
 
 module.exports = router
