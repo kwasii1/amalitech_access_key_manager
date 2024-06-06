@@ -1,10 +1,10 @@
 const nodemailer = require('nodemailer');
 
-const sendEmail = async(req,res,email,subject,text) => {
+const sendEmail = async(req,res,email,subject,text,title) => {
     var transporter = nodemailer.createTransport({
-        service:"smtp",
-        port:1025,
-        host:"localhost",
+        service:process.env.EMAIL_SERVICE,
+        port:process.env.EMAIL_PORT,
+        host:process.env.EMAIL_HOST,
         secure:false,
         auth:{
             user:"",
@@ -21,11 +21,21 @@ const sendEmail = async(req,res,email,subject,text) => {
     // });
 
     var mailOptions = {
-        from: 'hello@example.com',
+        from: process.env.EMAIL_FROM,
         to: email,
         subject: subject,
         text: 'That was easy!',
-        html: `<a href='${text}'>Click here to reset your password</a>`
+        html: `<!doctype html>
+        <html>
+          <head>
+            <meta charset="utf-8">
+          </head>
+          <body>
+                <h1>${title}</>
+                <p>If you did not request for this then ignore the mail</p>
+                <a href='${text}'>Click the link to proceed></a>
+          </body>
+        </html>`
     };
 
     transporter.sendMail(mailOptions, function(error, info){

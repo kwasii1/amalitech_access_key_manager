@@ -9,6 +9,7 @@ import { EyeIcon, TrashIcon } from '@heroicons/react/24/solid';
 import Modal from '../../components/Modal';
 import Button from '../../components/Button';
 import csrfTokenHook from '../../hooks/csrfTokenHook';
+import { Helmet } from 'react-helmet';
 
 function AdminHome() {
 	useAuth();
@@ -101,6 +102,11 @@ function AdminHome() {
 			)
 		},
 		{
+			name:'User',
+			selector:row => row.user.name,
+			sortable:true
+		},
+		{
 			name: 'Procurement',
 			selector: row => row.date_of_procurement,
 			sortable:true,
@@ -129,6 +135,9 @@ function AdminHome() {
   return (
     <>
         <AdminLayout title='Home'>
+			<Helmet>
+				<title>Home|Admin</title>
+			</Helmet>
             <div className="flex flex-col gap-y-5">
 				{message ? (
 					<>
@@ -173,6 +182,7 @@ function AdminHome() {
 										<p className=""><span className='font-bold'>Amount:</span> {values.payment.amount}</p>
 										<p className=""><span className='font-bold'>Plan:</span> {values.payment.plan}</p>
 										<p className=""><span className='font-bold'>Status:</span> {values.payment.status}</p>
+										<p className=""><span className='font-bold'>User:</span> {values.user.name}</p>
 									</div>
 								</div>
 							</Modal>

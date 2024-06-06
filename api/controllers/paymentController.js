@@ -80,6 +80,7 @@ const completePayment = async (req,res) => {
         "metadata":{
             "plan":req.body.plan,
             "user_id":req.user.id,
+            "phone":req.body.number,
         }
     }
 
@@ -136,6 +137,7 @@ const webhook = async (req,res) => {
                         plan:event.data.metadata.plan,
                         amount:event.data.amount,
                         status:"paid",
+                        mobile_number:event.data.metadata.phone
                     }
                 })
             } catch (error) {

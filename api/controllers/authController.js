@@ -60,18 +60,19 @@ const sendMail = async (req,res) => {
                 email:token.email
             }
         })
-        var link = `http://localhost:5173/reset-password-form/${user.id}/${token.token}`
+        var link = `http://localhost:5173/reset-password-form/${user.id}/${token.token}`;
+        sendEmail(req,res,req.body.email,"Reset Password",link,"Password Reset Link");
         // mailer
-        var transporter = nodemailer.createTransport({
-            service:"smtp",
-            port:1025,
-            host:"localhost",
-            secure:false,
-            auth:{
-                user:"",
-                pass:""
-            }
-        })
+        // var transporter = nodemailer.createTransport({
+        //     service:"smtp",
+        //     port:1025,
+        //     host:"localhost",
+        //     secure:false,
+        //     auth:{
+        //         user:"",
+        //         pass:""
+        //     }
+        // })
         // const transporter = nodemailer.createTransport({
         //     host: 'smtp.ethereal.email',
         //     port: 587,
@@ -81,21 +82,21 @@ const sendMail = async (req,res) => {
         //     }
         // });
 
-        var mailOptions = {
-            from: 'hello@example.com',
-            to: 'kesbijnr@gmail.com',
-            subject: 'Password Reset',
-            text: 'That was easy!',
-            html: `<a href='${link}'>Click here to reset your password</a>`
-        };
+        // var mailOptions = {
+        //     from: 'hello@example.com',
+        //     to: 'kesbijnr@gmail.com',
+        //     subject: 'Password Reset',
+        //     text: 'That was easy!',
+        //     html: `<a href='${link}'>Click here to reset your password</a>`
+        // };
 
-        transporter.sendMail(mailOptions, function(error, info){
-            if (error) {
-                res.status(500).json({message:"There was a problem sending the email"})
-            } else {
-                res.status(200).json({message:"An email will be received if the email account exists"})
-            }
-        });
+        // transporter.sendMail(mailOptions, function(error, info){
+        //     if (error) {
+        //         res.status(500).json({message:"There was a problem sending the email"})
+        //     } else {
+        //         res.status(200).json({message:"An email will be received if the email account exists"})
+        //     }
+        // });
     } catch (error) {
         res.status(500).json({message:"Internal Server Error"});
     }
@@ -104,10 +105,6 @@ const sendMail = async (req,res) => {
 
 const validateReset = (req,res) => {
     return [
-        check('old_password')
-            .notEmpty().withMessage('Old password is required')
-            .escape()
-            .trim(),
         check('password')
             .isLength({min:8}).withMessage('Password should be more than 8 characters')
             .escape()
@@ -128,65 +125,53 @@ const updateReset = async(req,res) => {
         return res.json({ errors: result.formatWith(error => error.msg).mapped() });
     }
 
-    // check old password
+    
     try {
+        // check token
         const user = await prisma.user.findUnique({
             where:{
                 id:req.body.id
             }
         })
-        const match = await bcrypt.compare(req.body.old_password,user.password)
-        if(match){
-            // check token
-            const user = await prisma.user.findUnique({
-                where:{
-                    id:req.body.id
-                }
-            })
-            if(!user){
+        if(!user){
+            return res.json({error_message:"Invalid or expired token"})
+        }
+
+        const token = await prisma.token.findUnique({
+            where:{
+                token:req.body.token
+            }
+        })
+        if(!token){
+            return res.json({error_message:"Invalid or expired token"})
+        }
+
+        jwt.verify(req.body.token,'secret', async(err,decoded) => {
+            if(err){
                 return res.json({error_message:"Invalid or expired token"})
             }
-
-            const token = await prisma.token.findUnique({
-                where:{
-                    token:req.body.token
-                }
-            })
-            if(!token){
-                return res.json({error_message:"Invalid or expired token"})
+            if(decoded.email == user.email){
+                const hashedPassword = bcrypt.hashSync(req.body.password , 10);
+                const updatePassword = await prisma.user.update({
+                    where:{
+                        id:req.body.id
+                    },
+                    data:{
+                        password:hashedPassword
+                    }
+                })
+                // delete old token
+                const deleteToken = await prisma.token.delete({
+                    where:{
+                        token:req.body.token
+                    }
+                })
+                return res.status(200).json({message:"Password updated"});
             }
-
-            jwt.verify(req.body.token,'secret', async(err,decoded) => {
-                if(err){
-                    return res.json({error_message:"Invalid or expired token"})
-                }
-                if(decoded.email == user.email){
-                    const hashedPassword = bcrypt.hashSync(req.body.password , 10);
-                    const updatePassword = await prisma.user.update({
-                        where:{
-                            id:req.body.id
-                        },
-                        data:{
-                            password:hashedPassword
-                        }
-                    })
-                    // delete old token
-                    const deleteToken = await prisma.token.delete({
-                        where:{
-                            token:req.body.token
-                        }
-                    })
-                    return res.status(200).json({message:"Password updated"});
-                }
-                return res.json({error_message:"Invalid or expired token"})
-            })
-            
-        }
-        else{
-            return res.status(200).json({errors:{old_password:"Old password does not match"}});
-        }
+            return res.json({error_message:"Invalid or expired token"})
+        })
     } catch (error) {
-        console.log(error);
+        return res.json({error_message:error.message})
     }
 }
 
@@ -241,7 +226,7 @@ const sendVerificationMail = async (req,res) => {
     } catch (error) {
         return res.json({message:error.message})
     }
-    sendEmail(req,res,req.user.email,"Email Verification",link);
+    sendEmail(req,res,req.user.email,"Email Verification",link,"Email Verification");
 
     return res.json({message:"Email Sent"})
 }

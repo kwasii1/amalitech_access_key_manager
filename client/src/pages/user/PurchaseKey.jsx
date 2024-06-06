@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom'
 import useUser from '../../hooks/userHook'
 import InputError from '../../components/InputError'
 import csrfTokenHook from '../../hooks/csrfTokenHook'
+import { Helmet } from 'react-helmet'
 import.meta.env
 
 
@@ -84,6 +85,9 @@ function PurchaseKey() {
 
     return (
         <AppLayout title='Purchase Key'>
+            <Helmet>
+                <title>Purchase Key</title>
+            </Helmet>
             <div className="flex flex-col gap-y-5">
                 {message ? (
                     <>
@@ -119,7 +123,7 @@ function PurchaseKey() {
                         <InputSelect name={"payment_method"} id={"payment_method"} label='Payment Method' change={handleChange} value={input.payment_method || ""} error={errors.payment_method}>
                             <option value="">Select Payment Method</option>
                             <option value="mobile_money">Mobile Money</option>
-                            <option value="card">Card</option>
+                            {/* <option value="card">Card</option> */}
                         </InputSelect>
                     </div>
                     {input.payment_method == "mobile_money" ? (

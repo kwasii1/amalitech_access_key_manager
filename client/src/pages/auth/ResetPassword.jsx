@@ -5,6 +5,7 @@ import Button from '../../components/Button'
 import axios from 'axios';
 import useGuest from '../../hooks/guestHook';
 import csrfTokenHook from '../../hooks/csrfTokenHook';
+import { Helmet } from 'react-helmet';
 
 function ResetPassword() {
     const [input,setInput] = useState({});
@@ -39,6 +40,9 @@ function ResetPassword() {
         <>
             {isGuest ? (
                 <GuestLayout>
+                    <Helmet>
+                        <title>Password Reset Request</title>
+                    </Helmet>
                     <form onSubmit={handleSubmit}>
                         {message != "" ? (
                             <>

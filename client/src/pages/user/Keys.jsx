@@ -10,6 +10,7 @@ import dayjs from 'dayjs'
 import useUser from '../../hooks/userHook';
 import { EyeIcon } from '@heroicons/react/24/solid';
 import Modal from '../../components/Modal';
+import { Helmet } from 'react-helmet';
 
 function Keys() {
 	const isAuth = useAuth();
@@ -112,6 +113,9 @@ function Keys() {
 			{isAuth ? (
 				<>
 					<AppLayout title='Keys'>
+						<Helmet>
+							<title>Home|Keys</title>
+						</Helmet>
 						<div className="flex flex-col gap-y-5">
 							{location.state == null ? '' : (
 								<>

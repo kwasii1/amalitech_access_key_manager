@@ -60,6 +60,7 @@ model payment {
   payment_method String    @db.VarChar(255)
   plan           String    @db.VarChar(255)
   amount         Float
+  mobile_number  String?   @db.VarChar(255)
   status         String    @db.VarChar(255)
   access_keys    AccessKey @relation(fields: [access_key_id], references: [id], map: "Payment_access_key_id_fkey")
   users          User      @relation(fields: [user_id], references: [id], map: "Payment_user_id_fkey")

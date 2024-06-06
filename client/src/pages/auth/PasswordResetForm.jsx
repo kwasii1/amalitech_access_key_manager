@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import useGuest from '../../hooks/guestHook'
 import csrfTokenHook from '../../hooks/csrfTokenHook'
+import { Helmet } from 'react-helmet'
 
 function PasswordResetForm() {
     const [inputs,setInputs] = useState({});
@@ -42,6 +43,9 @@ function PasswordResetForm() {
         <>
             {isGuest ? (
                 <GuestLayout >
+                    <Helmet>
+                        <title>Password Reset</title>
+                    </Helmet>
                     {message != "" ? (
                         <>
                             <div className="flex flex-row mb-3 rounded-md bg-green-600 text-white w-full">
@@ -52,9 +56,6 @@ function PasswordResetForm() {
                         </>
                     ):""}
                     <form onSubmit={handleSubmit}>
-                        <div className="mb-3 flex flex-col gap-y-2">
-                            <TextInput name="old_password" type="password" label="Old Password" id="old_password" value={inputs.old_password || ""} change={handleChange} error={error.old_password} />
-                        </div>
                         <div className="mb-3 flex flex-col gap-y-2">
                             <TextInput name="password" type="password" label="New Password" id="password" value={inputs.password || ""} change={handleChange} error={error.password} />
                         </div>

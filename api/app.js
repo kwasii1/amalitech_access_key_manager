@@ -50,7 +50,7 @@ app.use(cors({
     methods: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
 }));
 app.use(session({
-    secret:"Mysecret",
+    secret:process.env.APP_SECRET,
     resave:true,
     saveUninitialized:true,
     store:sessionStore,

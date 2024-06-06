@@ -40,6 +40,11 @@ const getAllKeys = async (req,res) => {
                         plan:true,
                         status:true
                     }
+                },
+                user:{
+                    select:{
+                        name:true,
+                    }
                 }
             }
         });

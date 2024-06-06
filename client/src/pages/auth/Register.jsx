@@ -5,6 +5,7 @@ import Button from '../../components/Button'
 import axios from 'axios'
 import {NavLink, useNavigate} from 'react-router-dom'
 import csrfTokenHook from '../../hooks/csrfTokenHook'
+import { Helmet } from 'react-helmet'
 
 function Register() {
     const navigate = useNavigate();
@@ -41,6 +42,9 @@ function Register() {
   return (
     <>
         <GuestLayout >
+            <Helmet>
+                <title>Register</title>
+            </Helmet>
             {message ? (
                 <>
                     <div className="flex flex-row p-2 text-white bg-green-600 rounded-md mb-3">

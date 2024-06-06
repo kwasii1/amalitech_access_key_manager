@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import AppLayout from '../../layout/AppLayout'
 import TextInput from '../../components/TextInput'
 import Button from '../../components/Button'
 import useAdmin from '../../hooks/adminHook'
 import useAuth from '../../hooks/authHook'
 import axios from 'axios'
 import csrfTokenHook from '../../hooks/csrfTokenHook'
+import { Helmet } from 'react-helmet'
+import AdminLayout from '../../layout/AdminLayout'
 
 function AdminProfile() {
     useAuth();
@@ -84,7 +85,10 @@ function AdminProfile() {
 
     return (
         <>
-            <AppLayout title='Profile'>
+            <AdminLayout title='Profile'>
+                <Helmet>
+                    <title>Profile|Admin</title>
+                </Helmet>
                 <div className="flex flex-col md:flex-row gap-x-20 gap-y-5">
                     <div className="flex flex-col gap-y-5 md:w-1/2">
                         <h3 className="text-lg font-semibold text-gray-600">
@@ -148,7 +152,7 @@ function AdminProfile() {
                     </div>
                 </div>
                 <hr className='w-full h-1 bg-gray-100'/>
-            </AppLayout>
+            </AdminLayout>
         </>
     )
 }

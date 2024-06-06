@@ -67,7 +67,9 @@ function AdminLayout({children,title = ""}) {
                                 </>
                             )}
                             <div className="flex rounded-full">
-                                <UserCircleIcon className='size-6 text-gray-600' />
+                                <NavLink to={"/admin-profile"}>
+                                    <UserCircleIcon className='size-6 text-gray-600' />
+                                </NavLink>
                             </div>
                         </div>
                         <div className="hidden md:flex justify-between items-center w-full">
@@ -105,7 +107,12 @@ function AdminLayout({children,title = ""}) {
                         <>
                             <div className="flex flex-col bg-cyan-600 rounded-b-md">
                                 <ul className='flex flex-col gap-y-1 divide-y divide-gray-100'>
-                                    <li className='px-5 py-1 hover:bg-gray-100'>Home</li>
+                                    <NavLink to={"/admin"}>
+                                        <li className='px-5 py-1 hover:bg-gray-100'>Home</li>
+                                    </NavLink>
+                                    <NavLink to={"/endpoint"}>
+                                        <li className='px-5 py-1 hover:bg-gray-100'>Endpoint</li>
+                                    </NavLink>
                                     <li className='px-5 py-1 hover:bg-gray-100'>Payments</li>
                                     <li onClick={logout} className='px-5 py-1 hover:bg-gray-100'>Logout</li>
                                 </ul>

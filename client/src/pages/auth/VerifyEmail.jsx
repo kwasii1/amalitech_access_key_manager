@@ -4,6 +4,7 @@ import Button from '../../components/Button'
 import axios from 'axios'
 import useAuth from '../../hooks/authHook'
 import csrfTokenHook from '../../hooks/csrfTokenHook'
+import { Helmet } from 'react-helmet'
 
 function VerifyEmail() {
     useAuth();
@@ -22,6 +23,9 @@ function VerifyEmail() {
     return (
         <>
             <GuestLayout>
+                <Helmet>
+                    <title>Verify Email</title>
+                </Helmet>
                 <div className="flex flex-col gap-y-3">
                     {message != "" ? (
                         <>
