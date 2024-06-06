@@ -9,7 +9,7 @@ import { EyeIcon, TrashIcon } from '@heroicons/react/24/solid';
 import Modal from '../../components/Modal';
 import Button from '../../components/Button';
 import csrfTokenHook from '../../hooks/csrfTokenHook';
-import { Helmet } from 'react-helmet';
+import { HelmetProvider,Helmet } from 'react-helmet-async';
 
 function AdminHome() {
 	useAuth();
@@ -135,9 +135,11 @@ function AdminHome() {
   return (
     <>
         <AdminLayout title='Home'>
-			<Helmet>
-				<title>Home|Admin</title>
-			</Helmet>
+			<HelmetProvider>
+				<Helmet>
+					<title>Home|Admin</title>
+				</Helmet>
+			</HelmetProvider>
             <div className="flex flex-col gap-y-5">
 				{message ? (
 					<>

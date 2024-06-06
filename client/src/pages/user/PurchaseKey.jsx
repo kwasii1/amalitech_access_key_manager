@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom'
 import useUser from '../../hooks/userHook'
 import InputError from '../../components/InputError'
 import csrfTokenHook from '../../hooks/csrfTokenHook'
-import { Helmet } from 'react-helmet'
+import { Helmet, HelmetProvider } from 'react-helmet-async'
 import.meta.env
 
 
@@ -85,9 +85,11 @@ function PurchaseKey() {
 
     return (
         <AppLayout title='Purchase Key'>
-            <Helmet>
-                <title>Purchase Key</title>
-            </Helmet>
+            <HelmetProvider>
+                <Helmet>
+                    <title>Purchase Key</title>
+                </Helmet>
+            </HelmetProvider>
             <div className="flex flex-col gap-y-5">
                 {message ? (
                     <>

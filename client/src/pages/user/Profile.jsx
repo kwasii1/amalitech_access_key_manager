@@ -7,7 +7,7 @@ import axios from 'axios';
 import useVerified from '../../hooks/verifiedHook';
 import useUser from '../../hooks/userHook';
 import csrfTokenHook from '../../hooks/csrfTokenHook';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 function Profile() {
     const isAuth = useAuth();
@@ -83,9 +83,11 @@ function Profile() {
             <>
                 {isAuth ? (
                     <AppLayout title='Profile'>
-                        <Helmet>
-                            <title>Profile</title>
-                        </Helmet>
+                        <HelmetProvider>
+                            <Helmet>
+                                <title>Profile</title>
+                            </Helmet>
+                        </HelmetProvider>
                         <div className="flex flex-col md:flex-row gap-x-20 gap-y-5">
                             <div className="flex flex-col gap-y-5 md:w-1/2">
                                 <h3 className="text-lg font-semibold text-gray-600">

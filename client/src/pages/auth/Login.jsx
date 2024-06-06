@@ -6,7 +6,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import csrfTokenHook from "../../hooks/csrfTokenHook";
-import {Helmet} from 'react-helmet'
+import {Helmet, HelmetProvider} from 'react-helmet-async'
 
 export default function Login(){
     const navigate = useNavigate()
@@ -48,9 +48,11 @@ export default function Login(){
     return (
         <>
             <GuestLayout >
-                <Helmet>
-                    <title>Login</title>
-                </Helmet>
+                <HelmetProvider>
+                    <Helmet>
+                        <title>Login</title>
+                    </Helmet>
+                </HelmetProvider>
                 {location.state == null ? '' : (
                     <>
                         <div className="flex flex-col w-full p-2 bg-green-300 mb-3">

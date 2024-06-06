@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session')
+const { rateLimit } = require('express-rate-limit');
 require('dotenv').config()
 const { csrfSync } = require('csrf-sync');
 const {csrfSynchronisedProtection} = csrfSync({
@@ -42,6 +43,13 @@ var authRouter = require('./routes/authRoute');
 var adminRouter = require('./routes/admin');
 var paymentRouter = require('./routes/paymentRoute')
 var app = express();
+// rate limiter
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+	limit: 100, 
+	standardHeaders: true, 
+	legacyHeaders: false, 
+})
 // CORS and Session
 app.use(cors({
     origin: ['http://localhost:5173'], 
@@ -69,6 +77,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(limiter)
 // csrfProtection
 app.use(csrfSynchronisedProtection)
 // route definitions

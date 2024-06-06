@@ -7,7 +7,7 @@ import useAuth from '../../hooks/authHook';
 import useVerified from '../../hooks/verifiedHook';
 import useAdmin from '../../hooks/adminHook';
 import csrfTokenHook from '../../hooks/csrfTokenHook';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 export default function Endpoint() {
     useAuth()
@@ -64,9 +64,11 @@ export default function Endpoint() {
     return (
         <>
             <AdminLayout title='Endpoint'>
-                <Helmet>
-                    <title>Endpoint</title>
-                </Helmet>
+                <HelmetProvider>
+                    <Helmet>
+                        <title>Endpoint</title>
+                    </Helmet>
+                </HelmetProvider>
                 <div className="flex flex-col gap-y-10">
                     <form onSubmit={handleSubmit} className='w-full md:w-1/2'>
                         <div className="mb-3 flex flex-col">
