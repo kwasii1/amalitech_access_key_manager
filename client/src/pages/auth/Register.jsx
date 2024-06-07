@@ -9,14 +9,15 @@ import { Helmet, HelmetProvider } from 'react-helmet-async'
 
 function Register() {
     const navigate = useNavigate();
-    const [inputs,setInputs] = useState({})
-    const [error,setErrors] = useState({})
-    const [message,setMessage] = useState("")
-    const token = csrfTokenHook()
+    const [inputs,setInputs] = useState({});
+    const [error,setErrors] = useState({});
+    const [message,setMessage] = useState("");
+    const token = csrfTokenHook();
+    const env = import.meta.env;
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        await axios.post('http://localhost:9000/register',{...inputs,CSRFToken:token},{withCredentials:true}).then((response) => {
+        await axios.post(`${env.VITE_API_BASE_URL}/register`,{...inputs,CSRFToken:token},{withCredentials:true}).then((response) => {
             if(response.status === 200){
                 setErrors(response.data.errors || {});
                 // navigate('/login')

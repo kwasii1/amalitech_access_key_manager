@@ -16,11 +16,12 @@ function PasswordResetForm() {
     const navigate = useNavigate();
     const isGuest = useGuest();
     const csrftoken = csrfTokenHook()
+    const env = import.meta.env;
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const updated_inputs = {...inputs,token,id}
-        axios.post(`http://localhost:9000/users/reset-password/${id}/${token}`,{...updated_inputs,CSRFToken:csrftoken},{withCredentials:true}).then((response) => {
+        axios.post(`${env.VITE_API_BASE_URL}/users/reset-password/${id}/${token}`,{...updated_inputs,CSRFToken:csrftoken},{withCredentials:true}).then((response) => {
             if(response.status === 200){
                 setError(response.data.errors || {})
                 if(!response.data.errors){

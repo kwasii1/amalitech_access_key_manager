@@ -15,6 +15,7 @@ export default function Login(){
     const [error,setErrors] = useState({});
     const [message,setMessage] = useState("")
     const token = csrfTokenHook();
+    const env = import.meta.env;
 
     const handleChange = (event) => {
         const name = event.target.name;
@@ -24,7 +25,7 @@ export default function Login(){
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        await axios.post('http://localhost:9000/login',{...inputs,CSRFToken:token},{withCredentials:true}).then((response) => {
+        await axios.post(`${env.VITE_API_BASE_URL}/login`,{...inputs,CSRFToken:token},{withCredentials:true}).then((response) => {
             if(response.status === 200){
                 setErrors(response.data.errors || {})
                 if(!response.data.errors && response.data.success){

@@ -18,6 +18,7 @@ function AdminProfile() {
     const [inputs,setInputs] = useState({});
     const [perrors,setPerrors] = useState({});
     const [pmessage,setPmessage] = useState("");
+    const env = import.meta.env;
 
     
     
@@ -30,7 +31,7 @@ function AdminProfile() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:9000/admin/update-profile',{...user,CSRFToken:token},{withCredentials:true,withXSRFToken:true}).then((response) => {
+        axios.post(`${env.VITE_API_BASE_URL}/admin/update-profile`,{...user,CSRFToken:token},{withCredentials:true,withXSRFToken:true}).then((response) => {
             if(response.status === 200){
                 setMessage("");
                 setErrors(response.data.errors || {})
@@ -54,7 +55,7 @@ function AdminProfile() {
 
     const handlePasswordSubmit = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:9000/admin/change-password',{...inputs,CSRFToken:token},{withCredentials:true,withXSRFToken:true}).then((response) => {
+        axios.post(`${env.VITE_API_BASE_URL}/admin/change-password`,{...inputs,CSRFToken:token},{withCredentials:true,withXSRFToken:true}).then((response) => {
             if(response.status === 200){
                 setPmessage("");
                 setPerrors(response.data.errors || {})
@@ -73,7 +74,7 @@ function AdminProfile() {
 
     useEffect(() => {
         try {
-            axios.get('http://localhost:9000/users',{withCredentials:true}).then((response) => {
+            axios.get(`${env.VITE_API_BASE_URL}/users`,{withCredentials:true}).then((response) => {
                 setUser(response.data.user);
             }).catch(err => {
                 setMessage(err.message)

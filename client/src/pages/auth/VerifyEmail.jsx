@@ -12,7 +12,7 @@ function VerifyEmail() {
     const token = csrfTokenHook()
     const handleSubmit = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:9000/users/send-verification',{CSRFToken:token},{withCredentials:true}).then((response) => {
+        axios.post(`${env.VITE_API_BASE_URL}/users/send-verification`,{CSRFToken:token},{withCredentials:true}).then((response) => {
             if(response.status === 200){
                 setMessage(response.data.message)
             }

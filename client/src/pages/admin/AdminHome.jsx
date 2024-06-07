@@ -14,6 +14,7 @@ import { HelmetProvider,Helmet } from 'react-helmet-async';
 function AdminHome() {
 	useAuth();
 	useAdmin();
+	const env = import.meta.env;
 
 	const [keys,setKeys] = useState([]);
 	const [message,setMessage] = useState("");
@@ -30,7 +31,7 @@ function AdminHome() {
 
 	const revoke = (id) => {
 		try {
-			axios.post(`http://localhost:9000/admin/keys/revoke/${id}`,{CSRFToken:token},{withCredentials:true}).then((response) => {
+			axios.post(`${env.VITE_API_BASE_URL}/admin/keys/revoke/${id}`,{CSRFToken:token},{withCredentials:true}).then((response) => {
 				if(response.status === 200){
 					setMessage(response.data.message);
 					setIsOpen("");
@@ -51,7 +52,7 @@ function AdminHome() {
 	useEffect(() => {
 		const fetchKeys = () => {
 			try {
-				axios.get('http://localhost:9000/admin/keys',{withCredentials:true}).then((response) => {
+				axios.get(`${env.VITE_API_BASE_URL}/admin/keys`,{withCredentials:true}).then((response) => {
 					if(response.status === 200){
 						if(shouldFetch){
 							setKeys(response.data.data);

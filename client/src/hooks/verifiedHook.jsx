@@ -5,10 +5,11 @@ import { useNavigate } from "react-router-dom";
 export default function useVerified(){
     const navigate = useNavigate();
     const [isVerified,setisVerified] = useState(false);
+	const env = import.meta.env;
     
     useEffect(() => {
 		try {
-			axios.get('http://localhost:9000/auth/verified',{withCredentials:true})
+			axios.get(`${env.VITE_API_BASE_URL}/auth/verified`,{withCredentials:true})
 			.then((response) => {
 				setisVerified(response.data.isVerified);
 				if(response.data.isVerified === false){

@@ -5,10 +5,11 @@ import { useNavigate } from "react-router-dom";
 export default function useAuth(){
     const navigate = useNavigate();
     const [isAuth,setIsAuth] = useState(false);
+	const env = import.meta.env;
     
     useEffect(() => {
 		try {
-			axios.get('http://localhost:9000/auth',{withCredentials:true})
+			axios.get(`${env.VITE_API_BASE_URL}/auth`,{withCredentials:true})
 			.then((response) => {
 				setIsAuth(response.data.auth);
 				if(response.data.auth === false){

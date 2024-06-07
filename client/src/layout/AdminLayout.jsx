@@ -9,6 +9,7 @@ function AdminLayout({children,title = ""}) {
     const [open,setMenu] = useState(false);
     const [noti,setNoti] = useState(false);
     const token = csrfTokenHook();
+    const env = import.meta.env;
     function openMenu(){
         if(!open){
             setMenu(true)
@@ -30,7 +31,7 @@ function AdminLayout({children,title = ""}) {
 
     async function logout(){
         try {
-            await axios.post('http://localhost:9000/auth/logout',{CSRFToken:token},{withCredentials:true}).then((response) => {
+            await axios.post(`${env.VITE_API_BASE_URL}/auth/logout`,{CSRFToken:token},{withCredentials:true}).then((response) => {
             if(response.data.signout === true){
                 navigate('/login')
             }

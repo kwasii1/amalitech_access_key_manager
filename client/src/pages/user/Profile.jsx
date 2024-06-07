@@ -21,6 +21,7 @@ function Profile() {
     const [perror,setPerror] = useState({})
     const [pmessage,setpMessage] = useState("")
     const token = csrfTokenHook()
+    const env = import.meta.env;
 
     const handleChange = (event) => {
         const name = event.target.name;
@@ -30,7 +31,7 @@ function Profile() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:9000/users/update',{...user,CSRFToken:token},{withCredentials:true}).then((response) => {
+        axios.post(`${env.VITE_API_BASE_URL}/users/update`,{...user,CSRFToken:token},{withCredentials:true}).then((response) => {
             if(response.status === 200){
                 setMessage("");
                 setError(response.data.errors || {})
@@ -54,7 +55,7 @@ function Profile() {
 
     const handlePasswordSubmit = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:9000/users/updatepassword',{...inputs,CSRFToken:token},{withCredentials:true}).then((response) => {
+        axios.post(`${env.VITE_API_BASE_URL}/users/updatepassword`,{...inputs,CSRFToken:token},{withCredentials:true}).then((response) => {
             if(response.status === 200){
                 setPerror(response.data.errors || {})
                 if(!response.data.errors){
@@ -70,7 +71,7 @@ function Profile() {
 
     useEffect(() => {
         try {
-            axios.get('http://localhost:9000/users',{withCredentials:true}).then((response) => {
+            axios.get(`${env.VITE_API_BASE_URL}/users`,{withCredentials:true}).then((response) => {
                 setUser(response.data.user)
             })
         } catch (error) {

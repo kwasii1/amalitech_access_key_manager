@@ -4,10 +4,11 @@ import React, { useEffect, useState } from 'react'
 export default function csrfTokenHook() {
 
     const [token,setToken] = useState("");
+    const env = import.meta.env;
 
     useEffect(() => {
         try {
-            axios.get('http://localhost:9000/auth/csrf-token',{withCredentials:true}).then((response) => {
+            axios.get(`${env.VITE_API_BASE_URL}/auth/csrf-token`,{withCredentials:true}).then((response) => {
                 if(response.status === 200){
                     setToken(response.data.token)
                 }

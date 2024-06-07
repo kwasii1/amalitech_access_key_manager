@@ -45,10 +45,11 @@ var paymentRouter = require('./routes/paymentRoute')
 var app = express();
 // rate limiter
 const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-	limit: 100, 
+    windowMs: 60 * 60 * 1000, // 60 minutes
+	limit: process.env.RATE_LIMIT, 
 	standardHeaders: true, 
 	legacyHeaders: false, 
+    message:"Too many requests"
 })
 // CORS and Session
 app.use(cors({

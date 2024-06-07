@@ -22,6 +22,7 @@ function Keys() {
 	const [message,setMessage] = useState("")
 	const [shouldFetch,setShouldfetch] = useState(true)
 	const [isOpen, setIsOpen] = useState("");
+	const env = import.meta.env;
 
 	const handleClick = (name) => {
 		setIsOpen(name);
@@ -34,7 +35,7 @@ function Keys() {
 	useEffect(() => {
 		const fetchKeys = () => {
 			try {
-				axios.get('http://localhost:9000/users/keys',{withCredentials:true}).then((response) => {
+				axios.get(`${env.VITE_API_BASE_URL}/users/keys`,{withCredentials:true}).then((response) => {
 					if(response.status === 200){
 						setKeys(response.data.data)
 					}

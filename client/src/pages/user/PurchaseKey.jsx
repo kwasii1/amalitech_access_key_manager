@@ -25,7 +25,8 @@ function PurchaseKey() {
     const [message,setMessage] = useState("");
     const [input,setInputs] = useState({});
     const [errors,setErrors] = useState({});
-    const token = csrfTokenHook()
+    const token = csrfTokenHook();
+    const env = import.meta.env;
 
     const handleChange = (event) => {
         const name = event.target.name;
@@ -45,7 +46,7 @@ function PurchaseKey() {
     const handleSubmit = (event) => {
         event.preventDefault();
         try {
-            axios.post('http://localhost:9000/payment/pay',{...input,CSRFToken:token},{withCredentials:true}).then((response) => {
+            axios.post(`${env.VITE_API_BASE_URL}/payment/pay`,{...input,CSRFToken:token},{withCredentials:true}).then((response) => {
                 if(response.status === 200){
                     setErrors(response.data.errors || {});
                     if(!response.data.errors){
@@ -68,7 +69,7 @@ function PurchaseKey() {
     useEffect(() => {
         const fetchPlans = async () => {
           try {
-            const response = await axios.get('http://localhost:9000/payment/plans', { withCredentials: true });
+            const response = await axios.get(`${env.VITE_API_BASE_URL}/payment/plans`, { withCredentials: true });
             if (response.status === 200) {
               setPlans(response.data.plans);
             } else {
