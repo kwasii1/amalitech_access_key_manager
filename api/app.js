@@ -52,7 +52,7 @@ const limiter = rateLimit({
 })
 // CORS and Session
 app.use(cors({
-    origin: ['http://localhost:5173'], 
+    origin: [process.env.CLIENT_URL], 
     credentials: true,
     optionsSuccessStatus: 204,
     methods: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
