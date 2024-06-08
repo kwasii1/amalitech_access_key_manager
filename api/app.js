@@ -67,6 +67,7 @@ app.use(cors({
     optionsSuccessStatus: 204,
     methods: ['GET,HEAD,PUT,PATCH,POST,DELETE'],
 }));
+// app.set("trust proxy",1);
 app.use(session({
     secret:process.env.APP_SECRET,
     resave:false,
@@ -74,7 +75,7 @@ app.use(session({
     store:sessionStore,
     cookie:{
         httpOnly:true,
-        sameSite:"lax",
+        sameSite:"none",
         secure:process.env.NODE_ENV === 'production',
         maxAge:3600000
     }
