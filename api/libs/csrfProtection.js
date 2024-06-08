@@ -10,7 +10,6 @@ const {
   } = csrfSync();
 
   const tokenGenerate = (req,res) => {
-    console.log(generateToken(req));
 		res.json({token:generateToken(req)})
   }
 

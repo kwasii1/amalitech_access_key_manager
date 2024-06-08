@@ -10,7 +10,6 @@ require('dotenv').config()
 const { csrfSync } = require('csrf-sync');
 const {csrfSynchronisedProtection} = csrfSync({
     getTokenFromRequest: (req) => {
-        console.log(req.body.CSRFToken);
         return req.body["CSRFToken"];
     },
 })
