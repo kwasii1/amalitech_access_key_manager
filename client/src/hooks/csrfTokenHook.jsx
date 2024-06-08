@@ -18,6 +18,6 @@ export default function useCsrfToken() {
         } catch (error) {
             console.log(error.message);
         }
-    },[token])
+    },[])
     return token;
 }
