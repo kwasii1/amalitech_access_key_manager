@@ -3,6 +3,7 @@ var cors = require('cors')
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var mysql = require('mysql2');
 var session = require('express-session')
 const { rateLimit } = require('express-rate-limit');
 require('dotenv').config()
@@ -12,6 +13,14 @@ const {csrfSynchronisedProtection} = csrfSync({
         return req.body["CSRFToken"];
     },
 })
+const mysql_options = {
+    host: process.env.DB_HOST,
+	port: process.env.DB_PORT,
+	user: process.env.DB_USER,
+	password: process.env.DB_PASSWORD,
+	database: process.env.DB_NAME,
+};
+const connection = mysql.createConnection(mysql_options)
 const MySQLStore = require('express-mysql-session')(session)
 const options = {
     host: process.env.DB_HOST,
@@ -31,7 +40,7 @@ const options = {
 		}
 	},
 }
-const sessionStore = new MySQLStore(options)
+const sessionStore = new MySQLStore(options,connection.promise())
 var passport = require('passport')
 var LocalStrategy = require('./strategies/localStrategy')
 // Route files
@@ -66,7 +75,7 @@ app.use(session({
     cookie:{
         httpOnly:true,
         sameSite:"lax",
-        secure:false,
+        secure:process.env.NODE_ENV === 'production',
         maxAge:3600000
     }
 }))
