@@ -6,7 +6,7 @@ function TextInput({type,name,id,classes = "",label = "",value = "",change = "",
   return (
         <>
             <InputLabel name={name}>{label}</InputLabel>
-            <input type={type} name={name} id={id} className={`px-2 py-2 border rounded-md border-gray-100 ${classes}`} value={value} onChange={change} readOnly={readonly} />
+            <input type={type} name={name} id={id} className={`px-2 py-2 border rounded-md ring-gray-300 ring-1 ${classes}`} value={value} onChange={change} readOnly={readonly} />
             {error == "" ? "" : (
               <InputError>{error}</InputError>
             )}

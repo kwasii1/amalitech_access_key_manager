@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Bars3Icon, BellAlertIcon, UserCircleIcon } from '@heroicons/react/24/solid'
+import { Bars3Icon, BellAlertIcon, UserCircleIcon, XMarkIcon } from '@heroicons/react/24/solid'
 import axios from 'axios';
 import { NavLink, useNavigate } from 'react-router-dom';
 import csrfTokenHook from '../hooks/csrfTokenHook';
@@ -45,11 +45,15 @@ function AdminLayout({children,title = ""}) {
                 <main className=''>
                     <nav className='px-2 py-3 md:px-20 flex flex-row justify-between md:justify-end border-b border-b-gray-100 items-center'>
                         <div className="flex md:hidden">
-                            <Bars3Icon className='size-6 text-gray-600' onClick={openMenu} />
+                            {open ? (
+                                <XMarkIcon className='size-6 text-gray-600' onClick={openMenu} />
+                            ): (
+                                <Bars3Icon className='size-6 text-gray-600' onClick={openMenu} />
+                            )}
                         </div>
                         {/* mobile view nav */}
                         <div className="flex flex-row items-center gap-x-2 relative md:hidden">
-                            <BellAlertIcon className='size-6 text-gray-600' onClick={showNotifications}/>
+                            {/* <BellAlertIcon className='size-6 text-gray-600' onClick={showNotifications}/> */}
                             {!noti ? '': (
                                 <>
                                     <div className="flex flex-col absolute bg-white rounded-lg py-5 shadow top-full right-full w-[10rem]">

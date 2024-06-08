@@ -174,7 +174,7 @@ function AdminHome() {
 							<Modal key={`${index}view`} open={isOpen === values.id+"view"} onClose={handleClose}>
 								<div className="flex flex-col gap-y-5">
 									<h3 className="text text-lg font-bold">
-										Key Details
+										Access Key Details
 									</h3>
 									<div className="flex flex-col">
 										<p className=""><span className='font-bold'>Key Code:</span> {values.key}</p>

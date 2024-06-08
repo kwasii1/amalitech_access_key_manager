@@ -111,7 +111,7 @@ function Profile() {
                                         <TextInput name="school_name" type="text" label="School Name" id="school_name" change={handleChange} value={user.school_name} error={error.school_name} />
                                     </div>
                                     <div className="mb-3 flex flex-col gap-y-2">
-                                        <TextInput name="email" type="email" label="Email" id="email" change={handleChange} value={user.email} error={error.email} />
+                                        <TextInput readonly={true} name="email" type="email" label="Email" id="email" change={handleChange} value={user.email} error={error.email} />
                                     </div>
                                     <div className="mb-3 flex flex-row justify-between items-center">
                                         <div className="flex w-full md:w-1/2">

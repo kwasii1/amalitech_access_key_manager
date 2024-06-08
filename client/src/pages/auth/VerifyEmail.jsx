@@ -9,7 +9,8 @@ import { Helmet, HelmetProvider } from 'react-helmet-async'
 function VerifyEmail() {
     useAuth();
     const [message,setMessage] = useState("")
-    const token = csrfTokenHook()
+    const token = csrfTokenHook();
+    const env = import.meta.env;
     const handleSubmit = (event) => {
         event.preventDefault();
         axios.post(`${env.VITE_API_BASE_URL}/users/send-verification`,{CSRFToken:token},{withCredentials:true}).then((response) => {
