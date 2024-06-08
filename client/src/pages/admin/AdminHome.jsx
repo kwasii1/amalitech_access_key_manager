@@ -8,8 +8,8 @@ import axios from 'axios';
 import { EyeIcon, TrashIcon } from '@heroicons/react/24/solid';
 import Modal from '../../components/Modal';
 import Button from '../../components/Button';
-import csrfTokenHook from '../../hooks/csrfTokenHook';
 import { HelmetProvider,Helmet } from 'react-helmet-async';
+import useCsrfToken from '../../hooks/csrfTokenHook';
 
 function AdminHome() {
 	useAuth();
@@ -20,7 +20,7 @@ function AdminHome() {
 	const [message,setMessage] = useState("");
 	const [isOpen, setIsOpen] = useState("");
 	const [shouldFetch,setShouldfetch] = useState(true);
-	const token = csrfTokenHook()
+	const token = useCsrfToken()
 
 	const handleClick = (name) => {
 		setIsOpen(name);

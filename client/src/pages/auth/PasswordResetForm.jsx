@@ -5,8 +5,8 @@ import Button from '../../components/Button'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import useGuest from '../../hooks/guestHook'
-import csrfTokenHook from '../../hooks/csrfTokenHook'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
+import useCsrfToken from '../../hooks/csrfTokenHook'
 
 function PasswordResetForm() {
     const [inputs,setInputs] = useState({});
@@ -15,7 +15,7 @@ function PasswordResetForm() {
     const {id,token} = useParams();
     const navigate = useNavigate();
     const isGuest = useGuest();
-    const csrftoken = csrfTokenHook()
+    const csrftoken = useCsrfToken()
     const env = import.meta.env;
 
     const handleSubmit = (event) => {

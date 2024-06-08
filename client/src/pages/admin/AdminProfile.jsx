@@ -4,14 +4,14 @@ import Button from '../../components/Button'
 import useAdmin from '../../hooks/adminHook'
 import useAuth from '../../hooks/authHook'
 import axios from 'axios'
-import csrfTokenHook from '../../hooks/csrfTokenHook'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import AdminLayout from '../../layout/AdminLayout'
+import useCsrfToken from '../../hooks/csrfTokenHook'
 
 function AdminProfile() {
     useAuth();
     useAdmin();
-    const token = csrfTokenHook();
+    const token = useCsrfToken();
     const [user,setUser] = useState({});
     const [errors,setErrors] = useState({});
     const [message,setMessage] = useState("");

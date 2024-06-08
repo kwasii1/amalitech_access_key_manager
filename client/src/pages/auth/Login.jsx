@@ -5,8 +5,8 @@ import GuestLayout from "../../layout/GuestLayout";
 import { NavLink, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import csrfTokenHook from "../../hooks/csrfTokenHook";
 import {Helmet, HelmetProvider} from 'react-helmet-async'
+import useCsrfToken from "../../hooks/csrfTokenHook";
 
 export default function Login(){
     const navigate = useNavigate()
@@ -14,7 +14,7 @@ export default function Login(){
     const [inputs,setInputs] = useState({});
     const [error,setErrors] = useState({});
     const [message,setMessage] = useState("")
-    const token = csrfTokenHook();
+    const token = useCsrfToken();
     const env = import.meta.env;
 
     const handleChange = (event) => {

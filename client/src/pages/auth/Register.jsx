@@ -4,15 +4,16 @@ import TextInput from '../../components/TextInput'
 import Button from '../../components/Button'
 import axios from 'axios'
 import {NavLink, useNavigate} from 'react-router-dom'
-import csrfTokenHook from '../../hooks/csrfTokenHook'
+
 import { Helmet, HelmetProvider } from 'react-helmet-async'
+import useCsrfToken from '../../hooks/csrfTokenHook'
 
 function Register() {
     const navigate = useNavigate();
     const [inputs,setInputs] = useState({});
     const [error,setErrors] = useState({});
     const [message,setMessage] = useState("");
-    const token = csrfTokenHook();
+    const token = useCsrfToken();
     const env = import.meta.env;
 
     const handleSubmit = async (event) => {

@@ -3,13 +3,14 @@ import GuestLayout from '../../layout/GuestLayout'
 import Button from '../../components/Button'
 import axios from 'axios'
 import useAuth from '../../hooks/authHook'
-import csrfTokenHook from '../../hooks/csrfTokenHook'
+
 import { Helmet, HelmetProvider } from 'react-helmet-async'
+import useCsrfToken from '../../hooks/csrfTokenHook'
 
 function VerifyEmail() {
     useAuth();
     const [message,setMessage] = useState("")
-    const token = csrfTokenHook();
+    const token = useCsrfToken();
     const env = import.meta.env;
     const handleSubmit = (event) => {
         event.preventDefault();

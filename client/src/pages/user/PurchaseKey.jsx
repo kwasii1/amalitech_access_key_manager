@@ -10,8 +10,8 @@ import InputSelect from '../../components/InputSelect'
 import { useNavigate } from 'react-router-dom'
 import useUser from '../../hooks/userHook'
 import InputError from '../../components/InputError'
-import csrfTokenHook from '../../hooks/csrfTokenHook'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
+import useCsrfToken from '../../hooks/csrfTokenHook'
 import.meta.env
 
 
@@ -25,7 +25,7 @@ function PurchaseKey() {
     const [message,setMessage] = useState("");
     const [input,setInputs] = useState({});
     const [errors,setErrors] = useState({});
-    const token = csrfTokenHook();
+    const token = useCsrfToken();
     const env = import.meta.env;
 
     const handleChange = (event) => {

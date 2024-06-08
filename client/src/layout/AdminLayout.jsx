@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import { Bars3Icon, BellAlertIcon, UserCircleIcon, XMarkIcon } from '@heroicons/react/24/solid'
 import axios from 'axios';
 import { NavLink, useNavigate } from 'react-router-dom';
-import csrfTokenHook from '../hooks/csrfTokenHook';
+import useCsrfToken from '../hooks/csrfTokenHook';
 
 function AdminLayout({children,title = ""}) {
     const navigate = useNavigate();
     const [open,setMenu] = useState(false);
     const [noti,setNoti] = useState(false);
-    const token = csrfTokenHook();
+    const token = useCsrfToken();
     const env = import.meta.env;
     function openMenu(){
         if(!open){

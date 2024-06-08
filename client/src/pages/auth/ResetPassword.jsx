@@ -4,15 +4,15 @@ import TextInput from '../../components/TextInput'
 import Button from '../../components/Button'
 import axios from 'axios';
 import useGuest from '../../hooks/guestHook';
-import csrfTokenHook from '../../hooks/csrfTokenHook';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
+import useCsrfToken from '../../hooks/csrfTokenHook';
 
 function ResetPassword() {
     const [input,setInput] = useState({});
     const [error,setError] = useState({});
     const [message,setMessage] = useState("");
     const isGuest = useGuest();
-    const token = csrfTokenHook();
+    const token = useCsrfToken();
     const env = import.meta.env;
 
     const handleChange = (event) => {

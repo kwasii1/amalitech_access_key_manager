@@ -6,8 +6,8 @@ import axios from 'axios';
 import useAuth from '../../hooks/authHook';
 import useVerified from '../../hooks/verifiedHook';
 import useAdmin from '../../hooks/adminHook';
-import csrfTokenHook from '../../hooks/csrfTokenHook';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
+import useCsrfToken from '../../hooks/csrfTokenHook';
 
 export default function Endpoint() {
     useAuth()
@@ -17,7 +17,7 @@ export default function Endpoint() {
     const [errors,setErrors] = useState({});
     const [message,setMessage] = useState("");
     const [key,setKey] = useState(null);
-    const token = csrfTokenHook()
+    const token = useCsrfToken()
     const env = import.meta.env;
 
     const handleChange = (event) => {

@@ -6,8 +6,8 @@ import useAuth from '../../hooks/authHook';
 import axios from 'axios';
 import useVerified from '../../hooks/verifiedHook';
 import useUser from '../../hooks/userHook';
-import csrfTokenHook from '../../hooks/csrfTokenHook';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
+import useCsrfToken from '../../hooks/csrfTokenHook';
 
 function Profile() {
     const isAuth = useAuth();
@@ -20,7 +20,7 @@ function Profile() {
     const [inputs,setInputs] = useState({});
     const [perror,setPerror] = useState({})
     const [pmessage,setpMessage] = useState("")
-    const token = csrfTokenHook()
+    const token = useCsrfToken()
     const env = import.meta.env;
 
     const handleChange = (event) => {
