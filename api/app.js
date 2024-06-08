@@ -69,8 +69,8 @@ app.use(cors({
 }));
 app.use(session({
     secret:process.env.APP_SECRET,
-    resave:true,
-    saveUninitialized:true,
+    resave:false,
+    saveUninitialized:false,
     store:sessionStore,
     cookie:{
         httpOnly:true,
