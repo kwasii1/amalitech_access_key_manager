@@ -129,7 +129,7 @@ function AppLayout({children,title = ""}) {
                                     <BellAlertIcon className='size-6 text-gray-600 cursor-pointer' onClick={showNotifications}/>
                                     {!noti ? '': (
                                         <>
-                                            <div className="flex flex-col absolute bg-white rounded-lg py-5 ring-1 ring-gray-400 shadow-xl top-full right-full w-[20rem]">
+                                            <div className="flex flex-col absolute bg-white rounded-lg py-5 ring-1 ring-gray-400 shadow-xl top-full right-full z-20 w-[20rem]">
                                                 <div className="flex border-b border-b-gray-600 px-2 justify-center items-center">
                                                     <p className="uppercase text-xs font-semibold">Notifications</p>
                                                 </div>

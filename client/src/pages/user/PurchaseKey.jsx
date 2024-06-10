@@ -52,7 +52,7 @@ function PurchaseKey() {
                     if(!response.data.errors){
                         setMessage(response.data.message);
                         setInputs({})
-                        navigate('/')
+                        navigate('/',{state:{message:response.data.message}})
                     }
                 }
             }).catch(err => {

@@ -36,6 +36,7 @@ const create = async (req,res,next) => {
             if (err) {
                 return res.status(500).json({ success: false, message: 'An error occurred during login.' });
             }
+            generateToken(req,true);
             return res.status(200).json({ success: true, message: 'Authentication successful.', user,admin:user.account_type });
         });
     })(req,res,next)
