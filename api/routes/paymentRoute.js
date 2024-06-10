@@ -6,6 +6,6 @@ var router = express.Router();
 
 router.get('/plans',auth,verified,listPlans)
 router.post('/pay',auth,verified,validatePayment(),checkExpiration,completePayment)
-router.post('/webhook',webhook)
+// router.post('/webhook',webhook)
 
 module.exports = router

@@ -131,7 +131,8 @@ const webhook = async (req,res) => {
                         status:"active",
                         date_of_procurement:new Date(),
                         expiry_date:expiry,
-                        key:crypto.randomUUID()
+                        key:crypto.randomUUID(),
+                        notified:false,
                     }
                 });
 
@@ -143,7 +144,7 @@ const webhook = async (req,res) => {
                         plan:event.data.metadata.plan,
                         amount:event.data.amount,
                         status:"paid",
-                        mobile_number:event.data.metadata.phone
+                        mobile_number:event.data.metadata.phone,
                     }
                 })
             } catch (error) {

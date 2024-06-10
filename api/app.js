@@ -50,7 +50,8 @@ var registerRouter = require('./routes/register')
 var loginRouter = require('./routes/login');
 var authRouter = require('./routes/authRoute');
 var adminRouter = require('./routes/admin');
-var paymentRouter = require('./routes/paymentRoute')
+var paymentRouter = require('./routes/paymentRoute');
+const { webhook } = require('./controllers/paymentController');
 var app = express();
 // rate limiter
 const limiter = rateLimit({
@@ -91,6 +92,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(limiter)
+app.post('/payment/webhook',webhook)
 // csrfProtection
 app.use(csrfSynchronisedProtection)
 // route definitions
