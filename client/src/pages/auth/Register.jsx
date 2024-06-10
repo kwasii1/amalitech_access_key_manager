@@ -23,7 +23,7 @@ function Register() {
                 setErrors(response.data.errors || {});
                 // navigate('/login')
                 if(!response.data.errors){
-                    navigate("/login",{state:{message:"Account Created"}})
+                    navigate("/",{state:{message:"Account Created"}})
                 }
                 
             }

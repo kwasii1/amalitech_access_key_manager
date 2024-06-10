@@ -74,6 +74,11 @@ const index = async (req,res) => {
                 password:hashed_password
             }
         })
+        // login user
+        req.login(user, function(err) {
+            if (err) { return next(err); }
+            // return res.redirect('/users/' + req.user.username);
+        });
         // send verification link through mail
         const token = jwt.sign({id:user.id},'secret',{expiresIn:'1h'});
         const link = `${process.env.BASE_URL}/users/verify/${user.id}/${token}`;
