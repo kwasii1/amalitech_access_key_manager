@@ -155,7 +155,7 @@ const webhook = async (req,res) => {
             }
             // send a notification
             sendNotification(event.data.metadata.user_id,"Payment verified and completed","Payment Success")
-            sendNotification(admin.id,`Payment verified and completed from ${"K"}`,"Payment Success")
+            sendNotification(admin.id,`Payment verified and completed`,"Payment Success")
             return res.status(200).json({message:"Payment Completed"});
         }
     }
