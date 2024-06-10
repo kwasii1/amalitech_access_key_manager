@@ -227,8 +227,6 @@ const sendVerificationMail = async (req,res) => {
         return res.json({message:error.message})
     }
     sendEmail(req,res,req.user.email,"Email Verification",link,"Email Verification");
-
-    return res.json({message:"Email Sent"})
 }
 
 
