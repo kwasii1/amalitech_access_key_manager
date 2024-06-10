@@ -71,7 +71,7 @@ const completePayment = async (req,res) => {
     }
 
     const params = {
-        "amount":req.body.amount,
+        "amount":req.body.amount * 100,
         "email":req.user.email,
         "currency":"GHS",
         "mobile_money": { 
