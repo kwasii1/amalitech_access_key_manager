@@ -18,7 +18,8 @@ passport.deserializeUser(async(id,done) => {
                 id:true,
                 name:true,
                 school_name:true,
-                account_type:true
+                account_type:true,
+                email:true,
             }
         })
         if(user){
