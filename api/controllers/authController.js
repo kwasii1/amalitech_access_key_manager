@@ -201,7 +201,7 @@ const verifyEmail = async (req,res) => {
                 }
             })
 
-            return res.redirect('http://localhost:5173?status=success')
+            return res.redirect(`${process.env.CLIENT_URL}?status=success`)
         } catch (error) {
             console.log(error);
         }
@@ -213,7 +213,7 @@ const verifyEmail = async (req,res) => {
 
 const sendVerificationMail = async (req,res) => {
     const token = jwt.sign({id:req.user.id},'secret',{expiresIn:'1h'});
-    const link = `http://localhost:9000/users/verify/${req.user.id}/${token}`;
+    const link = `${process.env.BASE_URL}/users/verify/${req.user.id}/${token}`;
     try {
         const user = await prisma.user.findUnique({
             where:{
