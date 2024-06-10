@@ -1,14 +1,15 @@
 const nodemailer = require('nodemailer');
 
 const sendEmail = async(req,res,email,subject,text,title) => {
+    var mailconfig;
     var transporter = nodemailer.createTransport({
         service:process.env.EMAIL_SERVICE,
         port:process.env.EMAIL_PORT,
         host:process.env.EMAIL_HOST,
-        secure:false,
+        secure:process.env.EMAIL_SECURE,
         auth:{
-            user:"",
-            pass:""
+            user:process.env.EMAIL_USER,
+            pass:process.env.EMAIL_PASSWORD
         }
     })
     // const transporter = nodemailer.createTransport({
@@ -40,6 +41,7 @@ const sendEmail = async(req,res,email,subject,text,title) => {
 
     transporter.sendMail(mailOptions, function(error, info){
         if (error) {
+            console.log(error);
             return res.status(500).json({message:"There was a problem sending the email"})
         } else {
             return res.status(200).json({message:"Email sent"})

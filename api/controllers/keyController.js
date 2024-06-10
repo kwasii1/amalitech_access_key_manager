@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const { check, validationResult } = require("express-validator");
+const { sendNotification } = require("../utils/sendNotification");
 const prisma = new PrismaClient();
 
 
@@ -80,6 +81,13 @@ const revoke = async (req,res) => {
                 status:"revoked"
             }
         })
+        const admin = await prisma.user.findFirst({
+            where:{
+                account_type:"admin",
+            }
+        })
+        sendNotification(key.user_id,`Your access key ${req.params.id} has been revoked`,"Access Key Revoked");
+        sendNotification(admin.id,`Access Key ${req.params.id} has been revoked`,"Access Key Revoked");
 
         return res.status(200).json({message:`${key.key} has been revoked`})
     } catch (error) {

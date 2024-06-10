@@ -14,6 +14,12 @@ passport.deserializeUser(async(id,done) => {
             where:{
                 id:id
             },
+            select:{
+                id:true,
+                name:true,
+                school_name:true,
+                account_type:true
+            }
         })
         if(user){
             done(null,user)

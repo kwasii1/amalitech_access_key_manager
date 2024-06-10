@@ -60,7 +60,7 @@ const sendMail = async (req,res) => {
                 email:token.email
             }
         })
-        var link = `http://localhost:5173/reset-password-form/${user.id}/${token.token}`;
+        var link = `${process.env.CLIENT_URL}/reset-password-form/${user.id}/${token.token}`;
         sendEmail(req,res,req.body.email,"Reset Password",link,"Password Reset Link");
         // mailer
         // var transporter = nodemailer.createTransport({

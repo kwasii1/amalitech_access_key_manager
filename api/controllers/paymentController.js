@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const dayjs = require('dayjs');
+const { sendNotification } = require('../utils/sendNotification');
 
 
 const listPlans = async (req,res) => {
@@ -117,6 +118,11 @@ const webhook = async (req,res) => {
         const event = req.body;
         if(event.event === 'charge.success'){
             // create key and payment
+            const admin = await prisma.user.findFirst({
+                where:{
+                    account_type:"admin"
+                }
+            })
             try {
                 const expiry = (event.data.metadata.plan == "monthly" ? dayjs().add(1,'month'):dayjs().add(1,'year'));
                 const key = await prisma.accessKey.create({
@@ -142,10 +148,13 @@ const webhook = async (req,res) => {
                 })
             } catch (error) {
                 // send a notification
-                console.log(error);
+                sendNotification(event.data.metadata.user_id,"Payment verified and completed but there was an error creating the key","Payment Success")
+                sendNotification(admin.id,"Payment verified and completed but there was an error creating the key","Payment Success")
                 return res.status(200).json({message:"Error creating key"});
             }
             // send a notification
+            sendNotification(event.data.metadata.user_id,"Payment verified and completed","Payment Success")
+            sendNotification(admin.id,`Payment verified and completed from ${"K"}`,"Payment Success")
             return res.status(200).json({message:"Payment Completed"});
         }
     }

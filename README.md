@@ -42,11 +42,11 @@ npm install
 4. Set up environment variables by creating a .env file in the root directory of api and copy content of .env.example into it
 ```
 APP_SECRET=<your_app_secret>
-DB_HOST=localhost
-DB_PORT=3306
-DB_USER=root
+DB_HOST=
+DB_PORT=
+DB_USER=
 DB_PASSWORD=
-DB_NAME=akm
+DB_NAME=
 ```
 5. Push prisma schema to database
 ```
@@ -73,6 +73,7 @@ Once the application is running, you can access the home page using the default 
 - Logging: HTTP request logging with Morgan.
 - Environment Configuration: Managed using dotenv.
 - Authorization using middlewares
+- Notifications: Simple notification system to notify users of successful payments, revoked and expired keys
 
 ### Backend Dependencies
 1. Main Dependencies
@@ -113,11 +114,13 @@ All pages are protected using middleware in the form of react Hooks to protect p
 - Purchase Key - /purchase-key
 - Profile - /profile
 - Payments - /payments
+- Notifications -/notifications
 2. Admin Pages
 - Home Page - /admin
 - Profile - /admin-profile
 - Endpoint - /endpoint
 - Payment - /admin-payments
+- Notifications - /admin-notifications
 3. Auth Pages
 - Login - /login
 - Register - /register
@@ -126,7 +129,7 @@ All pages are protected using middleware in the form of react Hooks to protect p
 - Verify Email - /verify-email
 
 ### API Endpoints
-Base Url of api endpoints is http://localhost:9000
+Base Url of api endpoints is [https://amalitechaccesskeymanager-production.up.railway.app/](https://amalitechaccesskeymanager-production.up.railway.app/)
 - POST /login - Authenticate user
 - POST /register - Create user account
 1. User Routes
@@ -135,16 +138,19 @@ Base Url of api endpoints is http://localhost:9000
 - POST /users/updatepassword - Update user password
 - POST /users/reset-password - Reset user password request
 - POST /users/reset-password/:id/:token - Reset password
--  GET /users/verify/:id/:token - Verify Email
--  POST /users/send-verification - Send verification mail
+- GET /users/verify/:id/:token - Verify Email
+- POST /users/send-verification - Send verification mail
 - GET /users/keys - Get all user's keys
-2. Admin Routes
+- GET /users/notifications - Get users's notifications
+- POST /users/markasread/:id - Mark notification as read
+1. Admin Routes
 - POST /admin/update-profile - Update admin profile
 - POST /admin/change-password - Change admin password
 - GET /admin/keys - Get all keys in database
 - POST /admin/keys/revoke/:id - Revoke key
 - POST /admin/endpoint - Check users for active keys
-3. Middleware Routes
+- GET /admin/notifications - Get admin's notifications
+1. Middleware Routes
 - GET /auth - Check if user is authenticated
 - GET /auth/guest - Check if user is unauthentiated
 - GET /auth/verified - Check if user has a verified email
@@ -152,12 +158,14 @@ Base Url of api endpoints is http://localhost:9000
 - GET /auth/user - Check if user is a user account 
 - GET /auth/csrf-token - Generate CSRF Token
 - GET /auth/logout - Logout authenticated user
-4. Payment Routes
+1. Payment Routes
 - GET /payment/plans - List all accesskey plans
 - POST /payment/pay - Pay for access key
 - POST /payment/webhook - Confirm user payment
 ### Database
 Database has the following schema
-![Image of Entity Relationship Diagram](api\public\images\erddiagram.png)
+![Image of Entity Relationship Diagram](api\public\images\erddiagram1.png)
 ### Project Link
 Access the project [here](https://amalitech-access-key-manager.vercel.app/)
+
+NB: Paystack test account is used for this so you would need to test it with this MTN number: 055 123 4987

@@ -87,10 +87,49 @@ const updateAdminPassword = async (req,res) => {
     
 }
 
+const getAllPayment = async (req,res) => {
+    try {
+        const payments = await prisma.payment.findMany({
+            include:{
+                users:{
+                    select:{
+                        name:true
+                    }
+                },
+                access_keys:{
+                    select:{
+                        key:true
+                    }
+                }
+            }
+        })
+        return res.status(200).json({payments:payments});
+    } catch (error) {
+        return res.status(200).json({message:"There was an error retrieving payments"});
+    }
+}
+
+const getAllNotifications = async (req,res) => {
+    try {
+        const notifications = await prisma.notification.findMany({
+            where:{
+                user_id:req.user.id,
+                read:false,
+            }
+        })
+
+        return res.status(200).json({data:notifications});
+    } catch (error) {
+        return res.status(500).json({message:"Internal Server Error"});
+    }
+}
+
 
 module.exports = {
     adminValidate,
     updateAdminPassword,
     validateProfile,
-    updateAdminProfile
+    updateAdminProfile,
+    getAllPayment,
+    getAllNotifications
 }

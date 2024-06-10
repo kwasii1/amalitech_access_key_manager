@@ -9,7 +9,6 @@ import {Helmet, HelmetProvider} from 'react-helmet-async'
 import useCsrfToken from "../../hooks/csrfTokenHook";
 
 export default function Login(){
-    console.log("HHH");
     const navigate = useNavigate()
     let location = useLocation()
     const [inputs,setInputs] = useState({});

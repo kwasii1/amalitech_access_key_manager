@@ -76,7 +76,7 @@ const index = async (req,res) => {
         })
         // send verification link through mail
         const token = jwt.sign({id:user.id},'secret',{expiresIn:'1h'});
-        const link = `http://localhost:9000/users/verify/${user.id}/${token}`;
+        const link = `${process.env.BASE_URL}/users/verify/${user.id}/${token}`;
         sendEmail(req,res,req.body.email,"Email Verification",link,"Email Verification");
 
 

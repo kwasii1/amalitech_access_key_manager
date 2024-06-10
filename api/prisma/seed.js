@@ -30,7 +30,7 @@ async function main(){
 			const key = await prisma.accessKey.create({
 				data:{
 					user_id:users.id, 
-					status:"active",
+					status:faker.helpers.arrayElement(["active","revoked"]),
 					date_of_procurement:new Date(),
 					expiry_date:faker.helpers.arrayElement([faker.date.past(),faker.date.future()]),
 					key:crypto.randomUUID()

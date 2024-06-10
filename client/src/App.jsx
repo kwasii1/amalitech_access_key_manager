@@ -11,6 +11,10 @@ import Profile from './pages/user/Profile'
 import AdminProfile from './pages/admin/AdminProfile'
 import AdminHome from './pages/admin/AdminHome'
 import Endpoint from './pages/admin/Endpoint'
+import Payment from './pages/admin/Payment'
+import UserPayment from './pages/user/UserPayments'
+import Notification from './pages/user/Notification'
+import AdminNotification from './pages/admin/AdminNotifications'
 
 function App() {
 	
@@ -29,6 +33,10 @@ function App() {
 				<Route path='/profile' element={<Profile />}/>
 				<Route path='/admin-profile' element={<AdminProfile />}/>
 				<Route path='/endpoint' element={<Endpoint />} />
+				<Route path='/admin-payments' element={<Payment />} />
+				<Route path='/payments' element={<UserPayment />} />
+				<Route path='/notifications' element={<Notification />} />
+				<Route path='/admin-notifications' element={<AdminNotification />} />
 			</Routes>
 		</BrowserRouter>
     </>

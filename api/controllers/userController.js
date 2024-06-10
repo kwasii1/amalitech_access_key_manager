@@ -156,10 +156,69 @@ const updatePassword = async(req,res) => {
     }
 }
 
+const getPayment = async (req,res) => {
+    try {
+        const payments = await prisma.payment.findMany({
+            where:{
+                user_id:req.user.id
+            },
+            include:{
+                users:{
+                    select:{
+                        name:true
+                    }
+                },
+                access_keys:{
+                    select:{
+                        key:true
+                    }
+                }
+            }
+        })
+        return res.status(200).json({payments:payments});
+    } catch (error) {
+        return res.status(200).json({message:"There was an error retrieving payments"});
+    }
+}
+
+const getNotifications = async (req,res) => {
+    try {
+        const notifications = await prisma.notification.findMany({
+            where:{
+                user_id:req.user.id,
+                read:false,
+            }
+        })
+
+        return res.status(200).json({data:notifications});
+    } catch (error) {
+        return res.status(500).json({message:"Internal Server Error"});
+    }
+}
+
+const markAsRead = async (req,res) => {
+    try {
+        const notification = await prisma.notification.update({
+            where:{
+                id:req.params.id
+            },
+            data:{
+                read:true,
+            }
+        })
+        res.status(200).json({message:"Message marked as read"})
+    } catch (error) {
+        res.status(500).json({message:"Internal server error"})
+    }
+}
+
 module.exports = {
     index,
     validate,
     update,
     validatePassword,
     updatePassword,
+    getPayment,
+    getNotifications,
+    markAsRead
 }
