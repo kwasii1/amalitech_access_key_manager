@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
 import useAuth from '../../hooks/authHook'
 import useVerified from '../../hooks/verifiedHook'
@@ -16,6 +16,8 @@ export default function AdminNotification() {
     const [notifications,setNotifications] = useState([]);
     const [message,setMessage] = useState("");
     const [shouldFetch,setShouldfetch] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     const markAsRead = (id) => {
         try {
@@ -28,17 +30,18 @@ export default function AdminNotification() {
                 setMessage(err.message)
             })
         } catch (error) {
-            setMessage(err.message)
+            setMessage(error.message)
         }
     }
 
     useEffect(() => {
-        const fetchNotifications = async () => {
+        const fetchNotifications = async (page) => {
             try {
-                await axios.get(`${env.VITE_API_BASE_URL}/admin/notifications`,{withCredentials:true}).then((response) => {
+                await axios.get(`${env.VITE_API_BASE_URL}/admin/notifications`,{withCredentials:true,params:{page,pageSize:5}}).then((response) => {
                     if(response.status === 200){
                         if(shouldFetch){
 							setNotifications(response.data.data)
+                            setTotalPages(response.data.totalPages);
 							setShouldfetch(false)
 						}
                     }
@@ -47,8 +50,12 @@ export default function AdminNotification() {
                 console.log(error);
             }
         }
-        fetchNotifications()
-    },[shouldFetch])
+        fetchNotifications(currentPage)
+    },[shouldFetch,currentPage])
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+        setShouldfetch(true)
+    };
     return (
         <>
             <AdminLayout title='Notifications'>
@@ -60,14 +67,14 @@ export default function AdminNotification() {
                 <div className="flex flex-col gap-y-2">
                     {message != "" ? (
                         <>
-                            <div className="flex flex-col p-2 w-full bg-green-600 rounded">
-                                <p className="text-white text-md font-semibold">
+                            <div className="flex flex-col w-full p-2 bg-green-600 rounded">
+                                <p className="font-semibold text-white text-md">
                                     {message}
                                 </p>
                             </div>
                         </>
                     ):""}
-                    {notifications && notifications.map((values,index) => (
+                    {notifications && notifications.map((values) => (
                         <div key={values.id} className="flex flex-col w-full p-3 border-l-4 gap-y-3">
                             <h3 className="text-lg font-bold">
                                 {values.data.title}
@@ -81,6 +88,23 @@ export default function AdminNotification() {
                             </div>
                         </div>
                     ))}
+                    <div className='flex flex-row items-center gap-x-2'>
+                        <button
+                            disabled={currentPage === 1}
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            className='flex p-1 rounded w-fit bg-cyan-300'
+                        >
+                            Previous
+                        </button>
+                        <span>{`Page ${currentPage} of ${totalPages}`}</span>
+                        <button
+                            disabled={currentPage === totalPages}
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            className='flex p-1 rounded w-fit bg-cyan-300'
+                        >
+                            Next
+                        </button>
+                    </div>
                 </div>
             </AdminLayout>
         </>

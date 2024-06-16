@@ -110,15 +110,21 @@ const getAllPayment = async (req,res) => {
 }
 
 const getAllNotifications = async (req,res) => {
+    const {page,pageSize} = req.query;
+    const pageNumber = parseInt(page) || 1;
+    const size =  parseInt(pageSize)||5;
     try {
         const notifications = await prisma.notification.findMany({
+            take:size,
+            skip:(pageNumber - 1) * size,
             where:{
                 user_id:req.user.id,
                 read:false,
             }
-        })
+        });
+        const totalNotifications = await prisma.notification.count()
 
-        return res.status(200).json({data:notifications});
+        return res.status(200).json({data:notifications,total:totalNotifications,totalPages:Math.ceil(totalNotifications/size),currentPage:page});
     } catch (error) {
         return res.status(500).json({message:"Internal Server Error"});
     }

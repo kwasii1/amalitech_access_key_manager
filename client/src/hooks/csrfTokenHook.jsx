@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function useCsrfToken() {
 
@@ -18,6 +18,6 @@ export default function useCsrfToken() {
         } catch (error) {
             console.log(error.message);
         }
-    },[])
+    },[env.VITE_API_BASE_URL])
     return token;
 }

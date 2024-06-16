@@ -163,8 +163,8 @@ Base Url of api endpoints is [https://amalitechaccesskeymanager-production.up.ra
 - POST /payment/pay - Pay for access key
 - POST /payment/webhook - Confirm user payment
 ### Database
-Database has the following schema
-![Image of Entity Relationship Diagram](api\public\images\erddiagram1.png)
+Database is a MySQL database that has the following schema
+![Image of Entity Relationship Diagram](api/public/images/erddiagram1.png)
 ### Project Link
 Access the project [here](https://amalitech-access-key-manager.vercel.app/)
 

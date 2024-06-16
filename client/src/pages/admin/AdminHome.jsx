@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import dayjs from 'dayjs';
 import DataTable from 'react-data-table-component';
 import AdminLayout from '../../layout/AdminLayout';
@@ -45,7 +45,7 @@ function AdminHome() {
 				setIsOpen("");
 			})
 		} catch (error) {
-			setMessage(response.error.message);
+			setMessage(error.message);
 		}
 	}
 
@@ -71,7 +71,7 @@ function AdminHome() {
 		}
 
 		fetchKeys()
-	},[shouldFetch])
+	},[shouldFetch,env.VITE_API_BASE_URL])
     
 	const columns = [
 		{
@@ -87,15 +87,15 @@ function AdminHome() {
 			cell:row => (
 				<>
 					{row.status === "active" ? (
-						<div className="flex flex-col items-center bg-green-300 justify-center rounded-full py-1 px-3 text-green-600">
+						<div className="flex flex-col items-center justify-center px-3 py-1 text-green-600 bg-green-300 rounded-full">
 							{row.status}
 						</div>
 					) :row.status === "expired" ? (
-						<div className="flex flex-col items-center bg-red-300 justify-center rounded-full py-1 px-3 text-red-600">
+						<div className="flex flex-col items-center justify-center px-3 py-1 text-red-600 bg-red-300 rounded-full">
 							{row.status}
 						</div>
 					):row.status === "revoked" ? (
-						<div className="flex flex-col items-center bg-yellow-300 justify-center rounded-full py-1 px-3 text-yellow-600">
+						<div className="flex flex-col items-center justify-center px-3 py-1 text-yellow-600 bg-yellow-300 rounded-full">
 							{row.status}
 						</div>
 					):""}
@@ -123,9 +123,9 @@ function AdminHome() {
 			name: 'Action',
 			cell:row => (
 				<>
-					<div className="flex flex-row justify-center items-center gap-x-2">
-						<EyeIcon onClick={() => handleClick(`${row.id}view`)} className='size-4 cursor-pointer'/>
-						<TrashIcon onClick={() => handleClick(row.id)} className='size-4 cursor-pointer text-red-600' />
+					<div className="flex flex-row items-center justify-center gap-x-2">
+						<EyeIcon onClick={() => handleClick(`${row.id}view`)} className='cursor-pointer size-4'/>
+						<TrashIcon onClick={() => handleClick(row.id)} className='text-red-600 cursor-pointer size-4' />
 					</div>
 				</>
 			)
@@ -144,7 +144,7 @@ function AdminHome() {
             <div className="flex flex-col gap-y-5">
 				{message ? (
 					<>
-						<div className="flex w-full bg-green-600 p-2 rounded-md text-white text-xs">
+						<div className="flex w-full p-2 text-xs text-white bg-green-600 rounded-md">
 							{message}
 						</div>
 					</>
@@ -160,7 +160,7 @@ function AdminHome() {
 						<div key={index}>
 							<Modal key={index} open={isOpen === values.id} onClose={handleClose}>
 								<div className="flex flex-col gap-y-5">
-									<h3 className="text text-sm text-end">
+									<h3 className="text-sm text text-end">
 										Are you sure you want to revoke this key?<br></br>
 										{values.key}
 									</h3>
@@ -173,7 +173,7 @@ function AdminHome() {
 							</Modal>
 							<Modal key={`${index}view`} open={isOpen === values.id+"view"} onClose={handleClose}>
 								<div className="flex flex-col gap-y-5">
-									<h3 className="text text-lg font-bold">
+									<h3 className="text-lg font-bold text">
 										Access Key Details
 									</h3>
 									<div className="flex flex-col">

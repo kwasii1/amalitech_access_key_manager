@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import AdminLayout from '../../layout/AdminLayout'
 import TextInput from '../../components/TextInput'
 import Button from '../../components/Button'
@@ -72,7 +72,7 @@ export default function Endpoint() {
                 </HelmetProvider>
                 <div className="flex flex-col gap-y-10">
                     <form onSubmit={handleSubmit} className='w-full md:w-1/2'>
-                        <div className="mb-3 flex flex-col">
+                        <div className="flex flex-col mb-3">
                             <TextInput label='Email' name={"email"} id={"email"} type={"email"} value={input.email} error={errors.email} change={handleChange} />
                         </div>
                         <div className="mb-3">
@@ -82,7 +82,7 @@ export default function Endpoint() {
                         </div>
                     </form>
                     {message ? (
-                        <div className="flex flex-col p-2 rounded-md w-full bg-green-600 text-white text-sm">
+                        <div className="flex flex-col w-full p-2 text-sm text-white bg-green-600 rounded-md">
                             {message}
                         </div>
                     ):""}

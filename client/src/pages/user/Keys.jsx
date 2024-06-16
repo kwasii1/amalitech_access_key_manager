@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import AppLayout from '../../layout/AppLayout'
 import DataTable from 'react-data-table-component';
 import Button from '../../components/Button';
@@ -14,13 +14,13 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 function Keys() {
 	const isAuth = useAuth();
-	const isVerified = useVerified()
+	useVerified()
 	useUser()
 	let location = useLocation()
 
 	const [keys,setKeys] = useState([])
 	const [message,setMessage] = useState("")
-	const [shouldFetch,setShouldfetch] = useState(true)
+	// const [shouldFetch,setShouldfetch] = useState(true)
 	const [isOpen, setIsOpen] = useState("");
 	const env = import.meta.env;
 
@@ -51,7 +51,7 @@ function Keys() {
 		}
 
 		fetchKeys()
-	},[])
+	},[env.VITE_API_BASE_URL])
 
 	
     const columns = [
@@ -68,15 +68,15 @@ function Keys() {
 			cell:row => (
 				<>
 					{row.status === "active" ? (
-						<div className="flex flex-col items-center bg-green-300 justify-center rounded-full py-1 px-3 text-green-600">
+						<div className="flex flex-col items-center justify-center px-3 py-1 text-green-600 bg-green-300 rounded-full">
 							{row.status}
 						</div>
 					) :row.status === "expired" ? (
-						<div className="flex flex-col items-center bg-red-300 justify-center rounded-full py-1 px-3 text-red-600">
+						<div className="flex flex-col items-center justify-center px-3 py-1 text-red-600 bg-red-300 rounded-full">
 							{row.status}
 						</div>
 					):row.status === "revoked" ? (
-						<div className="flex flex-col items-center bg-yellow-300 justify-center rounded-full py-1 px-3 text-yellow-600">
+						<div className="flex flex-col items-center justify-center px-3 py-1 text-yellow-600 bg-yellow-300 rounded-full">
 							{row.status}
 						</div>
 					):""}
@@ -99,8 +99,8 @@ function Keys() {
 			name: 'Action',
 			cell:row => (
 				<>
-					<div className="flex flex-row justify-center items-center gap-x-2">
-						<EyeIcon onClick={() => handleClick(row.id)} className='size-4 cursor-pointer'/>
+					<div className="flex flex-row items-center justify-center gap-x-2">
+						<EyeIcon onClick={() => handleClick(row.id)} className='cursor-pointer size-4'/>
 					</div>
 				</>
 			)
@@ -120,9 +120,16 @@ function Keys() {
 							</Helmet>
 						</HelmetProvider>
 						<div className="flex flex-col gap-y-5">
+							{message ? (
+								<>
+									<div className="flex flex-col w-full p-2 mb-3 bg-green-300">
+										{message}
+									</div>
+								</>
+							):""}
 							{location.state == null ? '' : (
 								<>
-									<div className="flex flex-col w-full p-2 bg-green-300 mb-3">
+									<div className="flex flex-col w-full p-2 mb-3 bg-green-300">
 										{location.state.message}
 									</div>
 								</>
@@ -143,7 +150,7 @@ function Keys() {
 							{keys.map((values,index) => (
 								<Modal key={index} open={isOpen === values.id} onClose={handleClose}>
 									<div className="flex flex-col gap-y-5">
-										<h3 className="text text-lg font-bold">
+										<h3 className="text-lg font-bold text">
 											Key Details
 										</h3>
 										<div className="flex flex-col">

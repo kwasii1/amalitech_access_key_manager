@@ -15,13 +15,13 @@ export default function useGuest(){
 				if(response.data.guest === false){
 					navigate('/');
 				}
-			}).catch(err => {
+			}).catch(() => {
 				setIsGuest(false)
 			})
 		} catch (error) {
 			setIsGuest(false)
 		}
-	},[isGuest,navigate])
+	},[isGuest,navigate,env.VITE_API_BASE_URL])
 
     return isGuest;
 }

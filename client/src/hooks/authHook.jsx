@@ -15,13 +15,13 @@ export default function useAuth(){
 				if(response.data.auth === false){
 					navigate('/login');
 				}
-			}).catch(err => {
+			}).catch(() => {
 				setIsAuth(false)
 			})
 		} catch (error) {
 			setIsAuth(false)
 		}
-	},[isAuth,navigate])
+	},[isAuth,navigate,env.VITE_API_BASE_URL])
 
     return isAuth;
 }

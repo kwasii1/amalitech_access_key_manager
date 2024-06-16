@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import AppLayout from '../../layout/AppLayout'
 import TextInput from '../../components/TextInput'
 import Button from '../../components/Button'
@@ -11,7 +11,7 @@ import useCsrfToken from '../../hooks/csrfTokenHook';
 
 function Profile() {
     const isAuth = useAuth();
-    const isVerified = useVerified()
+    useVerified()
     useUser()
     const [user,setUser] = useState({})
     const [error,setError] = useState({})
@@ -78,7 +78,7 @@ function Profile() {
             // check this
             setMessage(error)
         }
-    },[])
+    },[env.VITE_API_BASE_URL])
 
     return (
             <>
@@ -96,24 +96,24 @@ function Profile() {
                                 </h3>
                                 {message != "" ? (
                                     <>
-                                        <div className="flex flex-col p-2 w-full bg-green-600 rounded">
-                                            <p className="text-white text-md font-semibold">
+                                        <div className="flex flex-col w-full p-2 bg-green-600 rounded">
+                                            <p className="font-semibold text-white text-md">
                                                 {message}
                                             </p>
                                         </div>
                                     </>
                                 ):""}
                                 <form onSubmit={handleSubmit} className='w-full'>
-                                    <div className="mb-3 flex flex-col gap-y-2">
+                                    <div className="flex flex-col mb-3 gap-y-2">
                                         <TextInput name="name" type="text" label="Name" id="name" change={handleChange} value={user.name} error={error.name} />
                                     </div>
-                                    <div className="mb-3 flex flex-col gap-y-2">
+                                    <div className="flex flex-col mb-3 gap-y-2">
                                         <TextInput name="school_name" type="text" label="School Name" id="school_name" change={handleChange} value={user.school_name} error={error.school_name} />
                                     </div>
-                                    <div className="mb-3 flex flex-col gap-y-2">
+                                    <div className="flex flex-col mb-3 gap-y-2">
                                         <TextInput readonly={true} name="email" type="email" label="Email" id="email" change={handleChange} value={user.email} error={error.email} />
                                     </div>
-                                    <div className="mb-3 flex flex-row justify-between items-center">
+                                    <div className="flex flex-row items-center justify-between mb-3">
                                         <div className="flex w-full md:w-1/2">
                                             <Button>
                                                 Update
@@ -128,24 +128,24 @@ function Profile() {
                                 </h3>
                                 {pmessage != "" ? (
                                     <>
-                                        <div className="flex flex-col p-2 w-full bg-green-600 rounded">
-                                            <p className="text-white text-md font-semibold">
+                                        <div className="flex flex-col w-full p-2 bg-green-600 rounded">
+                                            <p className="font-semibold text-white text-md">
                                                 {pmessage}
                                             </p>
                                         </div>
                                     </>
                                 ):""}
                                 <form onSubmit={handlePasswordSubmit} className='w-full'>
-                                    <div className="mb-3 flex flex-col gap-y-2">
+                                    <div className="flex flex-col mb-3 gap-y-2">
                                         <TextInput name="old_password" type="password" label="Old Password" id="old_password" change={handlePasswordChange} error={perror.old_password} value={inputs.old_password || ""} />
                                     </div>
-                                    <div className="mb-3 flex flex-col gap-y-2">
+                                    <div className="flex flex-col mb-3 gap-y-2">
                                         <TextInput name="password" type="password" label="New Password" id="password" change={handlePasswordChange} error={perror.password} value={inputs.password || ""} />
                                     </div>
-                                    <div className="mb-3 flex flex-col gap-y-2">
+                                    <div className="flex flex-col mb-3 gap-y-2">
                                         <TextInput name="confirm_password" type="password" label="Confirm New Password" id="confirm_password" change={handlePasswordChange} error={perror.confirm_password} value={inputs.confirm_password || ""} />
                                     </div>
-                                    <div className="mb-3 flex flex-row justify-between items-center">
+                                    <div className="flex flex-row items-center justify-between mb-3">
                                         <div className="flex w-full md:w-1/2">
                                             <Button>
                                                 Change Password

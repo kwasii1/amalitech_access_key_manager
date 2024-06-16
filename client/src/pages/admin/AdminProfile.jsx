@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import TextInput from '../../components/TextInput'
 import Button from '../../components/Button'
 import useAdmin from '../../hooks/adminHook'
@@ -82,7 +82,7 @@ function AdminProfile() {
         } catch (error) {
             setMessage(error.message)
         }
-    },[])
+    },[env.VITE_API_BASE_URL])
 
     return (
         <>
@@ -99,8 +99,8 @@ function AdminProfile() {
                         </h3>
                         {message != "" ? (
                             <>
-                                <div className="flex flex-col p-2 w-full bg-green-600 rounded">
-                                    <p className="text-white text-md font-semibold">
+                                <div className="flex flex-col w-full p-2 bg-green-600 rounded">
+                                    <p className="font-semibold text-white text-md">
                                         {message}
                                     </p>
                                 </div>
@@ -108,10 +108,10 @@ function AdminProfile() {
                         ):""}
                         <form onSubmit={handleSubmit} className='w-full'>
                             <input type="hidden" name="CSRFToken" value={token} />
-                            <div className="mb-3 flex flex-col gap-y-2">
+                            <div className="flex flex-col mb-3 gap-y-2">
                                 <TextInput name="name" type="text" label="Name" id="name" value={user.name || ""} change={handleChange} error={errors.name} />
                             </div>
-                            <div className="mb-3 flex flex-row justify-between items-center">
+                            <div className="flex flex-row items-center justify-between mb-3">
                                 <div className="flex w-full md:w-1/2">
                                     <Button>
                                         Update
@@ -126,8 +126,8 @@ function AdminProfile() {
                         </h3>
                         {pmessage != "" ? (
                             <>
-                                <div className="flex flex-col p-2 w-full bg-green-600 rounded">
-                                    <p className="text-white text-md font-semibold">
+                                <div className="flex flex-col w-full p-2 bg-green-600 rounded">
+                                    <p className="font-semibold text-white text-md">
                                         {pmessage}
                                     </p>
                                 </div>
@@ -135,16 +135,16 @@ function AdminProfile() {
                         ):""}
                         <form onSubmit={handlePasswordSubmit} className='w-full'>
                             <input type="hidden" name="CSRFToken" value={token} />
-                            <div className="mb-3 flex flex-col gap-y-2">
+                            <div className="flex flex-col mb-3 gap-y-2">
                                 <TextInput name="old_password" type="password" label="Old Password" id="old_password" change={handlePasswordChange} value={inputs.old_password || ""} error={perrors.old_password} />
                             </div>
-                            <div className="mb-3 flex flex-col gap-y-2">
+                            <div className="flex flex-col mb-3 gap-y-2">
                                 <TextInput name="password" type="password" label="New Password" id="password" change={handlePasswordChange} value={inputs.password || ""} error={perrors.password} />
                             </div>
-                            <div className="mb-3 flex flex-col gap-y-2">
+                            <div className="flex flex-col mb-3 gap-y-2">
                                 <TextInput name="confirm_password" type="password" label="Confirm New Password" id="confirm_password" change={handlePasswordChange} value={inputs.confirm_password || ""} error={perrors.confirm_password} />
                             </div>
-                            <div className="mb-3 flex flex-row justify-between items-center">
+                            <div className="flex flex-row items-center justify-between mb-3">
                                 <div className="flex w-full md:w-1/2">
                                     <Button>
                                         Change Password

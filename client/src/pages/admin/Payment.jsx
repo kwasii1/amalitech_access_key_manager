@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import AdminLayout from '../../layout/AdminLayout'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import DataTable from 'react-data-table-component'
@@ -42,11 +42,11 @@ export default function Payment() {
             cell:row => (
 				<>
 					{row.status === "paid" ? (
-						<div className="flex flex-col items-center bg-green-300 justify-center rounded-full py-1 px-3 text-green-600">
+						<div className="flex flex-col items-center justify-center px-3 py-1 text-green-600 bg-green-300 rounded-full">
 							{row.status}
 						</div>
 					) :(
-                        <div className="flex flex-col items-center bg-red-300 justify-center rounded-full py-1 px-3 text-red-600">
+                        <div className="flex flex-col items-center justify-center px-3 py-1 text-red-600 bg-red-300 rounded-full">
 							{row.status}
 						</div>
                     )}
@@ -64,8 +64,8 @@ export default function Payment() {
             selector: row => row.users.name,
             cell:row => (
                 <>
-                    <div className="flex flex-row justify-center items-center gap-x-2">
-						<EyeIcon onClick={() => handleClick(`${row.id}view`)} className='size-4 cursor-pointer'/>
+                    <div className="flex flex-row items-center justify-center gap-x-2">
+						<EyeIcon onClick={() => handleClick(`${row.id}view`)} className='cursor-pointer size-4'/>
 					</div>
                 </>
             )
@@ -80,7 +80,7 @@ export default function Payment() {
                     }
                 }).catch(err => {
                     setPayment([]);
-                    setMessage(response.data.message)
+                    setMessage(err.message)
                 })
             } catch (error) {
                 setMessage("Internal server error")
@@ -99,7 +99,7 @@ export default function Payment() {
                 <div className="flex flex-col p-5">
                     {message ? (
                         <>
-                            <div className="flex w-full bg-green-600 p-2 rounded-md text-white text-xs">
+                            <div className="flex w-full p-2 text-xs text-white bg-green-600 rounded-md">
                                 {message}
                             </div>
                         </>
@@ -108,7 +108,7 @@ export default function Payment() {
                     {payment && payment.map((values) => (
                         <Modal key={values.id} open={isOpen === values.id+"view"} onClose={handleClose}>
                             <div className="flex flex-col gap-y-5">
-                                <h3 className="text text-lg font-bold">
+                                <h3 className="text-lg font-bold text">
                                     Payment Details
                                 </h3>
                                 <div className="flex flex-col">

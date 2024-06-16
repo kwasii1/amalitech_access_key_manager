@@ -19,17 +19,6 @@ const checkExpiration = async (req,res,next) => {
         })
         console.log(keys.length);
         if(keys.length > 0){
-            const updateKeys = await prisma.accessKey.updateMany({
-                where:{
-                    id:{
-                        in:keys.map(key => key.id)
-                    }
-                },
-                data:{
-                    status:"expired",
-                    notified:true
-                }
-            })
             const admin = await prisma.user.findFirst({
                 where:{
                     account_type:"admin"
@@ -41,6 +30,17 @@ const checkExpiration = async (req,res,next) => {
                     sendNotification(admin.id,`Access key ${element.key} has expired`,"Expired Access Key");
                 }
             });
+            const updateKeys = await prisma.accessKey.updateMany({
+                where:{
+                    id:{
+                        in:keys.map(key => key.id)
+                    }
+                },
+                data:{
+                    status:"expired",
+                    notified:true
+                }
+            })
         }
     } catch (error) {
         console.log(error);

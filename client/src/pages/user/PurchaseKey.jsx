@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import AppLayout from '../../layout/AppLayout'
 import TextInput from '../../components/TextInput'
 import Button from '../../components/Button'
@@ -20,7 +20,7 @@ function PurchaseKey() {
     useVerified()
     useUser()
     var navigate = useNavigate()
-    const isVerified = useVerified();
+    useVerified();
     const [plans,setPlans] = useState({});
     const [message,setMessage] = useState("");
     const [input,setInputs] = useState({});
@@ -81,7 +81,7 @@ function PurchaseKey() {
         };
     
         fetchPlans();
-      }, []);
+      }, [env.VITE_API_BASE_URL]);
 
 
     return (
@@ -94,7 +94,7 @@ function PurchaseKey() {
             <div className="flex flex-col gap-y-5">
                 {message ? (
                     <>
-                        <div className="flex flex-col p-2 text-white bg-green-600 rounded-md w-full">
+                        <div className="flex flex-col w-full p-2 text-white bg-green-600 rounded-md">
                             {message}
                         </div>
                     </>
@@ -103,7 +103,7 @@ function PurchaseKey() {
                     <div className="flex mb-3">
                         <InputError>{errors.custom}</InputError>
                     </div>
-                    <div className="mb-3 flex flex-col gap-y-1">
+                    <div className="flex flex-col mb-3 gap-y-1">
                         <InputSelect name={"plan"} id={"plan"} label='Plan' change={handleChange} value={input.plan || ""} error={errors.plan}>
                             <option value="">Select Preferred Plan</option>
                             {plans.length > 0 ? (
@@ -119,10 +119,10 @@ function PurchaseKey() {
                             )}
                         </InputSelect>
                     </div>
-                    <div className="mb-3 flex flex-col gap-y-1">
+                    <div className="flex flex-col mb-3 gap-y-1">
                         <TextInput label='Amount' readonly={true} type={"number"} name={"amount"} id={"amount"} value={input.amount || ""} change={handleChange} error={errors.amount}/>
                     </div>
-                    <div className="mb-3 flex flex-col gap-y-1">
+                    <div className="flex flex-col mb-3 gap-y-1">
                         <InputSelect name={"payment_method"} id={"payment_method"} label='Payment Method' change={handleChange} value={input.payment_method || ""} error={errors.payment_method}>
                             <option value="">Select Payment Method</option>
                             <option value="mobile_money">Mobile Money</option>
@@ -131,14 +131,14 @@ function PurchaseKey() {
                     </div>
                     {input.payment_method == "mobile_money" ? (
                         <>
-                            <div className="mb-3 flex flex-col gap-y-1">
+                            <div className="flex flex-col mb-3 gap-y-1">
                                 <InputSelect name={"provider"} id={"provider"} label='Provider' change={handleChange} value={input.provider || ""} error={errors.provider}>
                                     <option value="">Select Provider</option>
                                     <option value="mtn">MTN</option>
                                     <option value="vodafone">Telecel</option>
                                 </InputSelect>
                             </div>
-                            <div className="mb-3 flex flex-col gap-y-1">
+                            <div className="flex flex-col mb-3 gap-y-1">
                                 <InputLabel name={"provider"}>
                                     Phone Number
                                 </InputLabel> 

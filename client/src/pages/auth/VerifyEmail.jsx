@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import GuestLayout from '../../layout/GuestLayout'
 import Button from '../../components/Button'
 import axios from 'axios'
@@ -33,14 +33,14 @@ function VerifyEmail() {
                 <div className="flex flex-col gap-y-3">
                     {message != "" ? (
                         <>
-                            <div className="flex flex-col p-2 rounded-md text-white text-xs bg-green-600">
+                            <div className="flex flex-col p-2 text-xs text-white bg-green-600 rounded-md">
                                 <p>{message}</p>
                             </div>
                         </>
                     ):""}
                     <p>
                         A verification link has been sent to your email. 
-                        If you still haven't received it click the button below to resend verification link.
+                        If you still haven&apos;t received it click the button below to resend verification link.
                     </p>
                     <form onSubmit={handleSubmit}>
                         <Button type='submit'>

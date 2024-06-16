@@ -56,26 +56,26 @@ export default function Login(){
                 </HelmetProvider>
                 {location.state == null ? '' : (
                     <>
-                        <div className="flex flex-col w-full p-2 bg-green-300 mb-3">
+                        <div className="flex flex-col w-full p-2 mb-3 bg-green-300">
                             {location.state.message}
                         </div>
                     </>
                 ) }
                 {message ? (
                     <>
-                        <div className="flex flex-col w-full p-2 bg-green-300 mb-3">
+                        <div className="flex flex-col w-full p-2 mb-3 bg-green-300">
                             {message}
                         </div>
                     </>
                 ):'' }
                 <form onSubmit={handleSubmit}>
-                    <div className="mb-3 flex flex-col gap-y-2">
+                    <div className="flex flex-col mb-3 gap-y-2">
                         <TextInput name="email" type="email" label="Email" id="email" value={inputs.email || ""} error={error.email} change={handleChange}/>
                     </div>
-                    <div className="mb-3 flex flex-col gap-y-2">
+                    <div className="flex flex-col mb-3 gap-y-2">
                         <TextInput name="password" type="password" label="Password" id="password" value={inputs.password || ""} error={error.password} change={handleChange}/>
                     </div>
-                    <div className="mb-3 flex flex-row justify-between items-center">
+                    <div className="flex flex-row items-center justify-between mb-3">
                         <div className="flex">
                             <a href="/reset-password">
                                 <p className="text-xs text-gray-600 underline cursor-pointer">Forgot your password?</p>
@@ -89,7 +89,7 @@ export default function Login(){
                     </div>
                     <div className="flex justify-center w-full">
                         <NavLink to={"/register"}>
-                            <p className="text-xs text-gray-600 underline cursor-pointer">Don't have an account?</p>
+                            <p className="text-xs text-gray-600 underline cursor-pointer">Don&apos;t have an account?</p>
                         </NavLink>
                     </div>
                 </form>

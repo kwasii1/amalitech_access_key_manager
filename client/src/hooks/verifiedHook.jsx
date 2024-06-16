@@ -15,13 +15,13 @@ export default function useVerified(){
 				if(response.data.isVerified === false){
 					navigate('/verify-email');
 				}
-			}).catch(err => {
+			}).catch(() => {
 				setisVerified(false)
 			})
 		} catch (error) {
 			setisVerified(false)
 		}
-	},[isVerified,navigate])
+	},[isVerified,navigate,env.VITE_API_BASE_URL])
 
     return isVerified;
 }

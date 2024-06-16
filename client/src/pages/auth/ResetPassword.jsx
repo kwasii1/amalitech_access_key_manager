@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import GuestLayout from '../../layout/GuestLayout'
 import TextInput from '../../components/TextInput'
 import Button from '../../components/Button'
@@ -49,7 +49,7 @@ function ResetPassword() {
                     <form onSubmit={handleSubmit}>
                         {message != "" ? (
                             <>
-                                <div className="mb-3 p-2 rounded-md bg-green-600">
+                                <div className="p-2 mb-3 bg-green-600 rounded-md">
                                     <p className="text-xs text-white">
                                         {message}
                                     </p>
@@ -61,10 +61,10 @@ function ResetPassword() {
                                 Enter your email below and submit to receive password reset link.
                             </p>
                         </div>
-                        <div className="mb-3 flex flex-col gap-y-2">
+                        <div className="flex flex-col mb-3 gap-y-2">
                             <TextInput name="email" type="email" label="Email" id="email" value={input.email || ""} error={error.email} change={handleChange} />
                         </div>
-                        <div className="mb-3 flex flex-row justify-end items-center">
+                        <div className="flex flex-row items-center justify-end mb-3">
                             <div className="flex">
                                 <Button>
                                     Submit

@@ -16,13 +16,13 @@ export default function useAdmin(){
 				if(response.data.isAdmin === false){
 					navigate('/',{state:{message:"You're not authorized to view page"}});
 				}
-			}).catch(err => {
+			}).catch(() => {
 				setIsAdmin(false)
 			})
 		} catch (error) {
 			setIsAdmin(false)
 		}
-	},[isAdmin,navigate])
+	},[isAdmin,navigate,env.VITE_API_BASE_URL])
 
     return isAdmin;
 }

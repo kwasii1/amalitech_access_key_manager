@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import GuestLayout from '../../layout/GuestLayout'
 import TextInput from '../../components/TextInput'
 import Button from '../../components/Button'
@@ -51,7 +51,7 @@ function PasswordResetForm() {
                     </HelmetProvider>
                     {message != "" ? (
                         <>
-                            <div className="flex flex-row mb-3 rounded-md bg-green-600 text-white w-full">
+                            <div className="flex flex-row w-full mb-3 text-white bg-green-600 rounded-md">
                                 <p className="text-xs">
                                     {message}
                                 </p>
@@ -59,13 +59,13 @@ function PasswordResetForm() {
                         </>
                     ):""}
                     <form onSubmit={handleSubmit}>
-                        <div className="mb-3 flex flex-col gap-y-2">
+                        <div className="flex flex-col mb-3 gap-y-2">
                             <TextInput name="password" type="password" label="New Password" id="password" value={inputs.password || ""} change={handleChange} error={error.password} />
                         </div>
-                        <div className="mb-3 flex flex-col gap-y-2">
+                        <div className="flex flex-col mb-3 gap-y-2">
                             <TextInput name="confirm_password" type="password" label="Confirm New Password" id="confirm_password" value={inputs.confirm_password || ""} change={handleChange} error={error.confirm_password} />
                         </div>
-                        <div className="mb-3 flex flex-row justify-end items-center">
+                        <div className="flex flex-row items-center justify-end mb-3">
                             <div className="flex w-full md:w-1/2">
                                 <Button classes='w-fit'>
                                     Reset Password
