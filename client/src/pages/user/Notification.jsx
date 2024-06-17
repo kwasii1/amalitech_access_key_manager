@@ -6,6 +6,7 @@ import useVerified from '../../hooks/verifiedHook'
 import useUser from '../../hooks/userHook'
 import useCsrfToken from '../../hooks/csrfTokenHook'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
+import dayjs from 'dayjs'
 const env = import.meta.env
 
 export default function Notification() {
@@ -45,9 +46,11 @@ export default function Notification() {
 							setShouldfetch(false)
 						}
                     }
+                }).catch(err => {
+                    setMessage(err.message)
                 })
             } catch (error) {
-                console.log(error);
+                setMessage(error.message)
             }
         }
         fetchNotifications(currentPage)
@@ -76,9 +79,12 @@ export default function Notification() {
                     ):""}
                     {notifications && notifications.map((values) => (
                         <div key={values.id} className="flex flex-col w-full p-3 border-l-4 gap-y-3">
-                            <h3 className="text-lg font-bold">
-                                {values.data.title}
-                            </h3>
+                            <div className="flex flex-row items-center gap-x-10">
+                                <h3 className="text-lg font-bold">
+                                    {values.data.title}
+                                </h3>
+                                <p className='text-xs font-semibold'>{dayjs(values.createdAt).format('YYYY-MM-DD HH:mm:ss')}</p>
+                            </div>
                             <p className='text-sm font-semibold'>
                                 {values.data.message}
                             </p>

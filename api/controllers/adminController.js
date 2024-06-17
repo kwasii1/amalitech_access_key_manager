@@ -122,7 +122,12 @@ const getAllNotifications = async (req,res) => {
                 read:false,
             }
         });
-        const totalNotifications = await prisma.notification.count()
+        const totalNotifications = await prisma.notification.count({
+            where:{
+                user_id:req.user.id,
+                read:false,
+            }
+        })
 
         return res.status(200).json({data:notifications,total:totalNotifications,totalPages:Math.ceil(totalNotifications/size),currentPage:page});
     } catch (error) {

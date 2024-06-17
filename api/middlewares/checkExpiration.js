@@ -17,7 +17,6 @@ const checkExpiration = async (req,res,next) => {
                 ]
             },
         })
-        console.log(keys.length);
         if(keys.length > 0){
             const admin = await prisma.user.findFirst({
                 where:{
