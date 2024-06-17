@@ -142,7 +142,7 @@ const webhook = async (req,res) => {
                         access_key_id:key.id,
                         payment_method:event.data.channel,
                         plan:event.data.metadata.plan,
-                        amount:event.data.amount,
+                        amount:event.data.amount/100,
                         status:"paid",
                         mobile_number:event.data.metadata.phone,
                     }
