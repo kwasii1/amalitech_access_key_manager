@@ -3,6 +3,7 @@ import { Bars3Icon, BellAlertIcon, UserCircleIcon, XMarkIcon } from '@heroicons/
 import axios from 'axios';
 import { NavLink, useNavigate } from 'react-router-dom';
 import useCsrfToken from '../hooks/csrfTokenHook';
+import PropTypes from "prop-types"
 
 function AppLayout({children,title = ""}) {
     const navigate = useNavigate();
@@ -69,7 +70,7 @@ function AppLayout({children,title = ""}) {
                         {/* mobile view nav */}
                         <div className="relative flex flex-row items-center gap-x-2 md:hidden">
                             <div className="relative flex">
-                                {notifications != [] ? (
+                                {notifications.length !== 0 ? (
                                     <div className="absolute right-0 w-2 h-2 p-1 bg-red-600 rounded-full"></div>
                                 ):""}
                                 <BellAlertIcon className='text-gray-600 cursor-pointer size-6' onClick={showNotifications}/>
@@ -123,7 +124,7 @@ function AppLayout({children,title = ""}) {
                                     <div onClick={logout} className="flex p-2 rounded-md cursor-pointer hover:bg-cyan-500/20">Logout</div>
                                 </div>
                                 <div className="relative flex">
-                                    {notifications != [] ? (
+                                    {notifications !== 0 ? (
                                         <div className="absolute right-0 w-2 h-2 p-1 bg-red-600 rounded-full"></div>
                                     ):""}
                                     <BellAlertIcon className='text-gray-600 cursor-pointer size-6' onClick={showNotifications}/>
@@ -189,5 +190,8 @@ function AppLayout({children,title = ""}) {
             </>
     )
 }
-
+AppLayout.propTypes = {
+    title: PropTypes.string.isRequired,
+    children: PropTypes.node,
+}
 export default AppLayout

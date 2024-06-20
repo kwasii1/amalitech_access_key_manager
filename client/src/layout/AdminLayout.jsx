@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Bars3Icon, BellAlertIcon, UserCircleIcon, XMarkIcon } from '@heroicons/react/24/solid'
 import axios from 'axios';
 import { NavLink, useNavigate } from 'react-router-dom';
 import useCsrfToken from '../hooks/csrfTokenHook';
+import PropTypes from 'prop-types';
 
 function AdminLayout({children,title = ""}) {
     const navigate = useNavigate();
@@ -42,7 +43,7 @@ function AdminLayout({children,title = ""}) {
             }
         }
         fetchNotifications()
-    },[])
+    },[env.VITE_API_BASE_URL])
 
     async function logout(){
         try {
@@ -58,40 +59,40 @@ function AdminLayout({children,title = ""}) {
     return (
             <>
                 <main className=''>
-                    <nav className='px-2 py-3 md:px-20 flex flex-row justify-between md:justify-end border-b border-b-gray-100 items-center'>
+                    <nav className='flex flex-row items-center justify-between px-2 py-3 border-b md:px-20 md:justify-end border-b-gray-100'>
                         <div className="flex md:hidden">
                             {open ? (
-                                <XMarkIcon className='size-6 text-gray-600' onClick={openMenu} />
+                                <XMarkIcon className='text-gray-600 size-6' onClick={openMenu} />
                             ): (
-                                <Bars3Icon className='size-6 text-gray-600' onClick={openMenu} />
+                                <Bars3Icon className='text-gray-600 size-6' onClick={openMenu} />
                             )}
                         </div>
                         {/* mobile view nav */}
-                        <div className="flex flex-row items-center gap-x-2 relative md:hidden">
-                            <div className="flex relative">
-                                {notifications != [] ? (
-                                    <div className="rounded-full right-0 p-1 w-2 h-2 bg-red-600 absolute"></div>
+                        <div className="relative flex flex-row items-center gap-x-2 md:hidden">
+                            <div className="relative flex">
+                                {notifications.length !== 0 ? (
+                                    <div className="absolute right-0 w-2 h-2 p-1 bg-red-600 rounded-full"></div>
                                 ):""}
-                                <BellAlertIcon className='size-6 text-gray-600 cursor-pointer' onClick={showNotifications}/>
+                                <BellAlertIcon className='text-gray-600 cursor-pointer size-6' onClick={showNotifications}/>
                                 {!noti ? '': (
                                     <>
                                         <div className="flex flex-col absolute bg-white rounded-lg py-5 ring-1 ring-gray-400 shadow-xl top-full right-full w-[12rem] z-20">
-                                            <div className="flex border-b border-b-gray-600 px-2 justify-center items-center">
-                                                <p className="uppercase text-xs font-semibold">Notifications</p>
+                                            <div className="flex items-center justify-center px-2 border-b border-b-gray-600">
+                                                <p className="text-xs font-semibold uppercase">Notifications</p>
                                             </div>
-                                            <div className="flex flex-col px-2 w-full divide-y">
+                                            <div className="flex flex-col w-full px-2 divide-y">
                                                 {notifications && notifications.map((notification) => (
                                                     <div key={notification.id} className="flex flex-col w-full">
                                                         <p className="text-xs font-semibold text-gray-600">{notification.data.title}</p>
-                                                        <p className="font-light text-xs text-gray-600">
+                                                        <p className="text-xs font-light text-gray-600">
                                                             {notification.data.message}
                                                         </p>
                                                     </div>
                                                 ))}
                                             </div>
-                                            <div className="flex border-t border-b-gray-600 px-2 justify-center items-center">
+                                            <div className="flex items-center justify-center px-2 border-t border-b-gray-600">
                                                 <NavLink to={"/admin-notifications"}>
-                                                    <p className="uppercase text-xs font-semibold">View All</p>
+                                                    <p className="text-xs font-semibold uppercase">View All</p>
                                                 </NavLink>
                                             </div>
                                         </div>
@@ -100,11 +101,11 @@ function AdminLayout({children,title = ""}) {
                             </div>
                             <div className="flex rounded-full">
                                 <NavLink to={"/admin-profile"}>
-                                    <UserCircleIcon className='size-6 text-gray-600' />
+                                    <UserCircleIcon className='text-gray-600 size-6' />
                                 </NavLink>
                             </div>
                         </div>
-                        <div className="hidden md:flex justify-between items-center w-full">
+                        <div className="items-center justify-between hidden w-full md:flex">
                             <div className="flex rounded-full">
                                 <img src='/vite.svg' alt='Logo' />
                             </div>
@@ -125,32 +126,32 @@ function AdminLayout({children,title = ""}) {
                                             <span className={`flex p-2 cursor-pointer hover:bg-cyan-500/20 rounded-md ${isActive ? 'bg-cyan-500/20':''}`}>Endpoint</span>
                                         )}
                                     </NavLink>
-                                    <div onClick={logout} className="flex p-2 cursor-pointer hover:bg-cyan-500/20 rounded-md">Logout</div>
+                                    <div onClick={logout} className="flex p-2 rounded-md cursor-pointer hover:bg-cyan-500/20">Logout</div>
                                 </div>
-                                <div className="flex relative">
-                                    {notifications != [] ? (
-                                        <div className="rounded-full right-0 p-1 w-2 h-2 bg-red-600 absolute"></div>
+                                <div className="relative flex">
+                                    {notifications.length !== 0 ? (
+                                        <div className="absolute right-0 w-2 h-2 p-1 bg-red-600 rounded-full"></div>
                                     ):""}
-                                    <BellAlertIcon className='size-6 text-gray-600 cursor-pointer' onClick={showNotifications}/>
+                                    <BellAlertIcon className='text-gray-600 cursor-pointer size-6' onClick={showNotifications}/>
                                     {!noti ? '': (
                                         <>
                                             <div className="flex flex-col absolute bg-white rounded-lg py-5 ring-1 ring-gray-400 shadow-xl top-full right-full w-[20rem] z-20">
-                                                <div className="flex border-b border-b-gray-600 px-2 justify-center items-center">
-                                                    <p className="uppercase text-xs font-semibold">Notifications</p>
+                                                <div className="flex items-center justify-center px-2 border-b border-b-gray-600">
+                                                    <p className="text-xs font-semibold uppercase">Notifications</p>
                                                 </div>
-                                                <div className="flex flex-col px-2 w-full divide-y">
+                                                <div className="flex flex-col w-full px-2 divide-y">
                                                     {notifications && notifications.map((notification) => (
                                                         <div key={notification.id} className="flex flex-col w-full">
                                                             <p className="text-xs font-semibold text-gray-600">{notification.data.title}</p>
-                                                            <p className="font-light text-xs text-gray-600">
+                                                            <p className="text-xs font-light text-gray-600">
                                                                 {notification.data.message}
                                                             </p>
                                                         </div>
                                                     ))}
                                                 </div>
-                                                <div className="flex border-t border-b-gray-600 px-2 justify-center items-center">
+                                                <div className="flex items-center justify-center px-2 border-t border-b-gray-600">
                                                     <NavLink to={"/admin-notifications"}>
-                                                        <p className="uppercase text-xs font-semibold">View All</p>
+                                                        <p className="text-xs font-semibold uppercase">View All</p>
                                                     </NavLink>
                                                 </div>
                                             </div>
@@ -159,7 +160,7 @@ function AdminLayout({children,title = ""}) {
                                 </div>
                                 <div className="flex rounded-full">
                                     <a href="/admin-profile">
-                                        <UserCircleIcon className='size-6 cursor-pointer text-gray-600' />
+                                        <UserCircleIcon className='text-gray-600 cursor-pointer size-6' />
                                     </a>
                                 </div>
                             </div>
@@ -168,7 +169,7 @@ function AdminLayout({children,title = ""}) {
                     {!open ? '' : (
                         <>
                             <div className="flex flex-col bg-cyan-600 rounded-b-md">
-                                <ul className='flex flex-col gap-y-1 divide-y divide-gray-100'>
+                                <ul className='flex flex-col divide-y divide-gray-100 gap-y-1'>
                                     <NavLink to={"/admin"}>
                                         <li className='px-5 py-1 hover:bg-gray-100'>Home</li>
                                     </NavLink>
@@ -185,7 +186,7 @@ function AdminLayout({children,title = ""}) {
                     )}
                     <div className="flex flex-col p-5 md:p-20">
                         <div className="flex flex-col gap-x-5 gap-y-10">
-                            <h1 className="text-lg md:text-2xl text-gray-600 font-semibold">
+                            <h1 className="text-lg font-semibold text-gray-600 md:text-2xl">
                                 {title}
                             </h1>
                             <div className="flex flex-col">
@@ -198,4 +199,8 @@ function AdminLayout({children,title = ""}) {
     )
 }
 
+AdminLayout.propTypes = {
+    title:PropTypes.string.isRequired,
+    children:PropTypes.node
+}
 export default AdminLayout
